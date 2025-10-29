@@ -1,9 +1,14 @@
+// app/page.tsx
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaMobileAlt, FaDatabase, FaPalette, FaProjectDiagram, FaRobot, FaGamepad, FaArrowRight, FaCheckCircle, FaEye, FaQuoteLeft, FaQuoteRight, FaLightbulb, FaHeart, FaRocket, FaTrophy, FaGraduationCap, FaUsers, FaLaptopCode, FaStar, FaAward, FaBrain, FaCogs, FaMagic, FaFire, FaExternalLinkAlt, FaCodeBranch, FaLayerGroup, FaMobile, FaWaveSquare } from 'react-icons/fa';
+
+// 1. Import your new component
+import ParticleNetwork from './components/ParticleNetwork';
 
 export default function Home() {
   const [text, setText] = useState('');
@@ -46,97 +51,9 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [text, isDeleting, loopNum, typingSpeed]);
   
-  // Particle Network Effect
-  useEffect(() => {
-    const canvasElement = document.getElementById('particle-canvas') as HTMLCanvasElement | null;
-
-    if (!canvasElement) return;
-    
-    const ctx = canvasElement.getContext('2d');
-    if (!ctx) return;
-    
-    canvasElement.width = window.innerWidth;
-    canvasElement.height = window.innerHeight;
-    
-    const particleCount = 50;
-    const connectionDistance = 150;
-    
-    class Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-
-      constructor() {
-        this.x = Math.random() * canvasElement.width;
-        this.y = Math.random() * canvasElement.height;
-        this.vx = (Math.random() - 0.5) * 0.2;
-        this.vy = (Math.random() - 0.5) * 0.2;
-        this.radius = Math.random() * 2 + 1;
-      }
-      
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        
-        if (this.x < 0 || this.x > canvasElement.width) this.vx = -this.vx;
-        if (this.y < 0 || this.y > canvasElement.height) this.vy = -this.vy;
-      }
-      
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(100, 200, 255, 0.5)';
-        ctx.fill();
-      }
-    }
-    
-    const particles: Particle[] = [];
-    
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
-    
-    function animate() {
-      ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-      
-      particles.forEach((particle, i) => {
-        particle.update();
-        particle.draw();
-        
-        particles.slice(i + 1).forEach(otherParticle => {
-          const dx = particle.x - otherParticle.x;
-          const dy = particle.y - otherParticle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < connectionDistance) {
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(100, 200, 255, ${0.2 * (1 - distance / connectionDistance)})`;
-            ctx.stroke();
-          }
-        });
-      });
-      
-      requestAnimationFrame(animate);
-    }
-    
-    animate();
-    
-    const handleResize = () => {
-      canvasElement.width = window.innerWidth;
-      canvasElement.height = window.innerHeight;
-    };
-    
-    window.addEventListener('resize', handleResize);
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
+  // NOTE: The entire Particle Network useEffect has been REMOVED from here.
+  // It now lives safely inside its own component.
+  
   // Parallax scroll effect
   useEffect(() => {
     const handleScroll = () => {
@@ -146,7 +63,6 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -179,14 +95,7 @@ export default function Home() {
       color: 'from-cyan-700 to-blue-900',
       image: '/images/phones.png',
       icon: <FaUsers />,
-      links: {
-        research: '#',
-        prd: '#',
-        architecture: '#',
-        design: '#',
-        schema: '#',
-        website: '#'
-      },
+      links: { research: '#', prd: '#', architecture: '#', design: '#', schema: '#', website: '#' },
       tech: ['React', 'Node.js', 'MongoDB', 'Stripe API'],
       impact: 'Serving 500+ community members with secure financial management'
     },
@@ -199,54 +108,16 @@ export default function Home() {
       color: 'from-blue-800 to-indigo-900',
       image: '/images/phones.png', 
       icon: <FaMobile />,
-      links: {
-        report: '#',
-        design: '#',
-        website: '#',
-        architecture: '#',
-        schema: '#',
-        api: '#',
-        dashboard: '#'
-      },
+      links: { report: '#', design: '#', website: '#', architecture: '#', schema: '#', api: '#', dashboard: '#' },
       tech: ['Kotlin', 'Express.js', 'PostgreSQL', 'Google Maps API'],
       impact: 'Increased vendor sales by 40% and expanded customer reach by 60%'
     }
   ];
-  
-
   const designProjects = [
-    {
-      id: 0,
-      name: 'The Road Not Taken',
-      description: 'Designed a book cover by blending illustration, typography, and branding, presented in professional mockup formats.',
-      tags: ['Book Cover Design', 'Typography', 'Illustration'],
-      color: 'from-purple-700 to-pink-900',
-      image: '/images/bookcover.jpg', 
-      category: 'Book Design',
-      details: 'This design combines modern typography with artistic illustration to create a visually striking book cover that captures the essence of the literary work.'
-    },
-    {
-      id: 1,
-      name: 'Depy\'s Crisps',
-      description: 'Designed a logo, landing page, and promotional adverts to showcase the new product line, with packaging for three flavors tailored for children.',
-      tags: ['Packaging Design', 'Logo Design', 'Brand Identity'],
-      color: 'from-yellow-700 to-orange-900',
-      image: '/images/snack.png', 
-      category: 'Packaging Design',
-      details: 'Created vibrant, child-friendly packaging designs that stand out on shelves while maintaining brand consistency across all three flavor variants.'
-    },
-    {
-      id: 2,
-      name: 'Kilimanjaro Energies',
-      description: 'Created a brand identity by crafting a distinctive logo and cohesive branded materials, along with a loyalty program mobile app design.',
-      tags: ['Brand Identity', 'Logo Design', 'Mobile App Design'],
-      color: 'from-green-700 to-teal-900',
-      image: '/images/jerrycan.png', 
-      category: 'Branding & Product Design',
-      details: 'Developed a comprehensive brand identity that reflects the company\'s values and energy sector focus, including a user-friendly mobile app for customer engagement.'
-    }
+    { id: 0, name: 'The Road Not Taken', description: 'Designed a book cover by blending illustration, typography, and branding, presented in professional mockup formats.', tags: ['Book Cover Design', 'Typography', 'Illustration'], color: 'from-purple-700 to-pink-900', image: '/images/bookcover.jpg', category: 'Book Design', details: 'This design combines modern typography with artistic illustration to create a visually striking book cover that captures the essence of the literary work.' },
+    { id: 1, name: 'Depy\'s Crisps', description: 'Designed a logo, landing page, and promotional adverts to showcase the new product line, with packaging for three flavors tailored for children.', tags: ['Packaging Design', 'Logo Design', 'Brand Identity'], color: 'from-yellow-700 to-orange-900', image: '/images/snack.png', category: 'Packaging Design', details: 'Created vibrant, child-friendly packaging designs that stand out on shelves while maintaining brand consistency across all three flavor variants.' },
+    { id: 2, name: 'Kilimanjaro Energies', description: 'Created a brand identity by crafting a distinctive logo and cohesive branded materials, along with a loyalty program mobile app design.', tags: ['Brand Identity', 'Logo Design', 'Mobile App Design'], color: 'from-green-700 to-teal-900', image: '/images/jerrycan.png', category: 'Branding & Product Design', details: 'Developed a comprehensive brand identity that reflects the company\'s values and energy sector focus, including a user-friendly mobile app for customer engagement.' }
   ];
-  
   const skills = [
     { name: 'Frontend Development', icon: <FaCode />, level: 90, color: 'from-blue-500 to-cyan-600', stats: 'React, Next.js, Typescript' },
     { name: 'Mobile Development', icon: <FaMobileAlt />, level: 85, color: 'from-green-500 to-teal-600', stats: 'Kotlin' },
@@ -255,48 +126,18 @@ export default function Home() {
     { name: 'System Architecture', icon: <FaProjectDiagram />, level: 75, color: 'from-indigo-500 to-purple-600', stats: 'Lucid charts' },
     { name: 'AI Integration', icon: <FaRobot />, level: 70, color: 'from-yellow-500 to-orange-600', stats: 'TensorFlow, PyTorch' }
   ];
-
-  // Experience cards data
   const experienceCards = [
-    {
-      icon: <FaFire />,
-      title: 'Passion Driven',
-      description: 'My journey began with a love for gaming, sparking curiosity about how technology creates immersive experiences.',
-      color: 'from-orange-500 to-red-600',
-   
-    },
-    {
-      icon: <FaBrain />,
-      title: 'Creative Problem Solver',
-      description: 'I approach challenges with innovative thinking, always seeking elegant solutions to complex problems.',
-      color: 'from-purple-500 to-pink-600',
- 
-    },
-    {
-      icon: <FaCogs />,
-      title: 'Full Stack Expert',
-      description: 'From frontend aesthetics to backend architecture, I build complete, robust applications.',
-      color: 'from-blue-500 to-cyan-600',
- 
-    },
-    {
-      icon: <FaMagic />,
-      title: 'Design Focused',
-      description: 'I believe great code deserves great design, creating experiences that users love.',
-      color: 'from-green-500 to-teal-600',
- 
-    }
+    { icon: <FaFire />, title: 'Passion Driven', description: 'My journey began with a love for gaming, sparking curiosity about how technology creates immersive experiences.', color: 'from-orange-500 to-red-600' },
+    { icon: <FaBrain />, title: 'Creative Problem Solver', description: 'I approach challenges with innovative thinking, always seeking elegant solutions to complex problems.', color: 'from-purple-500 to-pink-600' },
+    { icon: <FaCogs />, title: 'Full Stack Expert', description: 'From frontend aesthetics to backend architecture, I build complete, robust applications.', color: 'from-blue-500 to-cyan-600' },
+    { icon: <FaMagic />, title: 'Design Focused', description: 'I believe great code deserves great design, creating experiences that users love.', color: 'from-green-500 to-teal-600' }
   ];
-
-
   const achievements = [
     { icon: <FaStar />, label: 'Top Performer', color: 'text-yellow-400' },
     { icon: <FaAward />, label: 'Best Project', color: 'text-purple-400' },
     { icon: <FaTrophy />, label: 'Hackathon Winner', color: 'text-orange-400' },
     { icon: <FaRocket />, label: 'Fast Learner', color: 'text-blue-400' }
   ];
-
-  // Navigation items with their positions along the semicircle
   const navItems = [
     { name: 'About', href: '#about', angle: -60 },
     { name: 'Skills', href: '#skills', angle: -30 },
@@ -307,44 +148,22 @@ export default function Home() {
   
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Particle Network Background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900">
-          <canvas id="particle-canvas" className="absolute inset-0"></canvas>
-        </div>
-      </div>
+      {/* 2. Use the imported component here as the background */}
+      <ParticleNetwork />
       
       {/* Navigation - Large semicircle with buttons inside */}
       <nav className="fixed -left-40 top-0 h-full w-48 md:w-64 z-20 flex flex-col items-center py-8">
-        {/* Large semicircle background */}
         <div className="relative h-full flex items-center">
-          {/* Much larger semicircle background */}
           <div className="absolute -left- top-1/2 transform -translate-y-1/2 w-50 h-96 md:w-[250px] md:h-[500px] bg-cyan-700 bg-opacity-30 rounded-r-full overflow-hidden"></div>
-          
-          {/* Navigation buttons positioned along the semicircle arc */}
           <div className="relative w-full h-full flex items-center justify-center">
             {navItems.map((item, index) => {
-              const radius = 180; // Radius of the semicircle
-              const angleRad = (item.angle * Math.PI) / 180; // Convert to radians
+              const radius = 180;
+              const angleRad = (item.angle * Math.PI) / 180;
               const x = radius * Math.cos(angleRad);
               const y = radius * Math.sin(angleRad);
-              
               return (
-                <a
-                  key={index}
-                  href={item.href}
-                  className="absolute group z-10"
-                  style={{
-                    transform: `translate(${x}px, ${y}px)`,
-                    left: '50%',
-                    top: '50%',
-                    marginLeft: '-28px',
-                    marginTop: '-28px'
-                  }}
-                >
-                  <div className="w-14 h-14 md:w-16 md:h-16 bg-blue-900 rounded-full flex items-center justify-center text-white text-xs md:text-sm font-medium hover:bg-blue-800 transition-all duration-300 transform hover:scale-110 shadow-lg">
-                    {item.name}
-                  </div>
+                <a key={index} href={item.href} className="absolute group z-10" style={{ transform: `translate(${x}px, ${y}px)`, left: '50%', top: '50%', marginLeft: '-28px', marginTop: '-28px' }}>
+                  <div className="w-14 h-14 md:w-16 md:h-16 bg-blue-900 rounded-full flex items-center justify-center text-white text-xs md:text-sm font-medium hover:bg-blue-800 transition-all duration-300 transform hover:scale-110 shadow-lg">{item.name}</div>
                 </a>
               );
             })}
@@ -356,32 +175,18 @@ export default function Home() {
       <div className="ml-48 md:ml-20 relative z-10">
         {/* Hero Section - Reduced height and padding */}
         <section className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Hi, I'm <span className="text-cyan-300">Fana Bezabih</span>
-          </h1>
-          <div className="text-2xl md:text-3xl mb-8 h-10">
-            <span className="text-gray-400">{text}</span>
-            <span className="animate-pulse" style={{ animationDuration: '2s' }}>|</span>
-          </div>
-          <p className="max-w-2xl mb-10 text-gray-400 text-lg">
-            Passionate about creating innovative tech solutions that bridge gaps and enhance user experiences. 
-            From gaming inspiration to real-world applications, I love turning ideas into reality.
-          </p>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">Hi, I'm <span className="text-cyan-300">Fana Bezabih</span></h1>
+          <div className="text-2xl md:text-3xl mb-8 h-10"><span className="text-gray-400">{text}</span><span className="animate-pulse" style={{ animationDuration: '2s' }}>|</span></div>
+          <p className="max-w-2xl mb-10 text-gray-400 text-lg">Passionate about creating innovative tech solutions that bridge gaps and enhance user experiences. From gaming inspiration to real-world applications, I love turning ideas into reality.</p>
           <div className="flex space-x-4 mb-8">
-            <a href="#projects" className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-700">
-              View My Work
-            </a>
-            <a href="#contact" className="px-8 py-3 border border-cyan-600 rounded-full font-semibold hover:bg-cyan-900 transition-all duration-700">
-              Get In Touch
-            </a>
+            <a href="#projects" className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-700">View My Work</a>
+            <a href="#contact" className="px-8 py-3 border border-cyan-600 rounded-full font-semibold hover:bg-cyan-900 transition-all duration-700">Get In Touch</a>
           </div>
         </section>
         
         {/* Creative Wave Divider */}
         <div className="relative h-24 overflow-hidden">
-          <svg className="absolute bottom-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="#000000" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-          </svg>
+          <svg className="absolute bottom-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#000000" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
         </div>
         
         {/* New Beautiful About Section - Reduced top padding */}
@@ -389,9 +194,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             {/* Section Title with Animation */}
             <div className={`text-center mb-16 transition-all duration-1000 ${aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <h2 className="text-5xl md:text-6xl font-bold mb-4">
-                About <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">Me</span>
-              </h2>
+              <h2 className="text-5xl md:text-6xl font-bold mb-4">About <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">Me</span></h2>
               <div className="w-32 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full"></div>
             </div>
             
@@ -461,11 +264,6 @@ export default function Home() {
                       <div className="flex items-start justify-between mb-4">
                         <div className="text-4xl text-white">
                           {card.icon}
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-white">
-                            {card.stats}
-                          </div>
                         </div>
                       </div>
                       
@@ -606,8 +404,6 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-       
-       
             </div>
             
             {/* Personal Quote Section */}

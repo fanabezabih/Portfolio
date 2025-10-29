@@ -971,8 +971,7 @@ export default function Home() {
                 </form>
               </div>
             </div>
-            
-            {/* Creative Footer with Animated Elements */}
+      
             <div className="mt-20 text-center">
               <div className="inline-flex items-center space-x-2 mb-4">
                 <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>

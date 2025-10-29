@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaMobileAlt, FaDatabase, FaPalette, FaProjectDiagram, FaRobot, FaGamepad, FaArrowRight, FaCheckCircle, FaEye, FaQuoteLeft, FaQuoteRight, FaLightbulb, FaHeart, FaRocket, FaTrophy, FaGraduationCap, FaUsers, FaLaptopCode, FaStar, FaAward, FaBrain, FaCogs, FaMagic, FaFire, FaExternalLinkAlt, FaCodeBranch, FaLayerGroup, FaMobile, FaWaveSquare } from 'react-icons/fa';
 
-// 1. Import your new component
+// 1. Import the ParticleNetwork component from its new location
 import ParticleNetwork from './components/ParticleNetwork';
 
 export default function Home() {
@@ -51,8 +51,8 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [text, isDeleting, loopNum, typingSpeed]);
   
-  // NOTE: The entire Particle Network useEffect has been REMOVED from here.
-  // It now lives safely inside its own component.
+  // NOTE: The entire Particle Network useEffect has been removed from this file.
+  // It now lives safely inside its own component: './components/ParticleNetwork.tsx'.
   
   // Parallax scroll effect
   useEffect(() => {

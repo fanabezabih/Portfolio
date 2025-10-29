@@ -8,7 +8,6 @@ export default function ParticleNetwork() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    // This check prevents the code from running on the server
     if (typeof window === 'undefined') return;
     
     const canvas = canvasRef.current;

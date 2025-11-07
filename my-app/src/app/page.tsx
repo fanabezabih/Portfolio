@@ -1,4 +1,4 @@
-// app/page.tsx
+
 
 'use client';
 
@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaMobileAlt, FaDatabase, FaPalette, FaProjectDiagram, FaRobot, FaGamepad, FaArrowRight, FaCheckCircle, FaEye, FaQuoteLeft, FaQuoteRight, FaLightbulb, FaHeart, FaRocket, FaTrophy, FaGraduationCap, FaUsers, FaLaptopCode, FaStar, FaAward, FaBrain, FaCogs, FaMagic, FaFire, FaExternalLinkAlt, FaCodeBranch, FaLayerGroup, FaMobile, FaWaveSquare } from 'react-icons/fa';
 
-// 1. Import the ParticleNetwork component from its new location
+
 import ParticleNetwork from './components/ParticleNetwork';
 
 export default function Home() {
@@ -795,7 +795,9 @@ export default function Home() {
                       <span className="text-2xl md:text-3xl font-bold text-cyan-400">AC</span>
                     ) : (
                       <Image
-                        src="/images/akirachix.png" // Replace with your actual logo path
+                        src="/images/akirachix.png" 
+
+                        
                         alt="AkiraChix Logo"
                         fill
                         className="object-contain p-2"

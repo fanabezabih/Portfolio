@@ -1,12 +1,9 @@
-
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaMobileAlt, FaDatabase, FaPalette, FaProjectDiagram, FaRobot, FaGamepad, FaArrowRight, FaCheckCircle, FaEye, FaQuoteLeft, FaQuoteRight, FaLightbulb, FaHeart, FaRocket, FaTrophy, FaGraduationCap, FaUsers, FaLaptopCode, FaStar, FaAward, FaBrain, FaCogs, FaMagic, FaFire, FaExternalLinkAlt, FaCodeBranch, FaLayerGroup, FaMobile, FaWaveSquare } from 'react-icons/fa';
-
+import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaMobileAlt, FaDatabase, FaPalette, FaProjectDiagram, FaRobot, FaGamepad, FaArrowRight, FaCheckCircle, FaEye, FaQuoteLeft, FaQuoteRight, FaLightbulb, FaHeart, FaRocket, FaTrophy, FaGraduationCap, FaUsers, FaLaptopCode, FaStar, FaAward, FaBrain, FaCogs, FaMagic, FaFire, FaExternalLinkAlt, FaCodeBranch, FaLayerGroup, FaMobile, FaWaveSquare, FaBars, FaTimes } from 'react-icons/fa';
 
 import ParticleNetwork from './components/ParticleNetwork';
 
@@ -26,6 +23,7 @@ export default function Home() {
   const [selectedDesign, setSelectedDesign] = useState<typeof designProjects[0] | null>(null);
   const [projectTab, setProjectTab] = useState('overview');
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const aboutRef = useRef<HTMLDivElement>(null);
   
   const roles = ['Software Engineer', 'Full Stack Developer', 'UI/UX Designer', 'Mobile Developer'];
@@ -50,9 +48,6 @@ export default function Home() {
     const timer = setTimeout(handleTyping, typingSpeed);
     return () => clearTimeout(timer);
   }, [text, isDeleting, loopNum, typingSpeed]);
-  
-  // NOTE: The entire Particle Network useEffect has been removed from this file.
-  // It now lives safely inside its own component: './components/ParticleNetwork.tsx'.
   
   // Parallax scroll effect
   useEffect(() => {
@@ -106,7 +101,7 @@ export default function Home() {
       fullDescription: 'An end-to-end mobile app connecting local vegetable vendors with customers to increase sales and improve food accessibility.',
       tags: ['Mobile Development', 'API Development', 'Dashboard'],
       color: 'from-blue-800 to-indigo-900',
-      image: '/images/phones.png', 
+      image: '/images/safi.png', 
       icon: <FaMobile />,
       links: { report: '#', design: '#', website: '#', architecture: '#', schema: '#', api: '#', dashboard: '#' },
       tech: ['Kotlin', 'Express.js', 'PostgreSQL', 'Google Maps API'],
@@ -114,17 +109,47 @@ export default function Home() {
     }
   ];
   const designProjects = [
-    { id: 0, name: 'The Road Not Taken', description: 'Designed a book cover by blending illustration, typography, and branding, presented in professional mockup formats.', tags: ['Book Cover Design', 'Typography', 'Illustration'], color: 'from-purple-700 to-pink-900', image: '/images/bookcover.jpg', category: 'Book Design', details: 'This design combines modern typography with artistic illustration to create a visually striking book cover that captures the essence of the literary work.' },
-    { id: 1, name: 'Depy\'s Crisps', description: 'Designed a logo, landing page, and promotional adverts to showcase the new product line, with packaging for three flavors tailored for children.', tags: ['Packaging Design', 'Logo Design', 'Brand Identity'], color: 'from-yellow-700 to-orange-900', image: '/images/snack.png', category: 'Packaging Design', details: 'Created vibrant, child-friendly packaging designs that stand out on shelves while maintaining brand consistency across all three flavor variants.' },
-    { id: 2, name: 'Kilimanjaro Energies', description: 'Created a brand identity by crafting a distinctive logo and cohesive branded materials, along with a loyalty program mobile app design.', tags: ['Brand Identity', 'Logo Design', 'Mobile App Design'], color: 'from-green-700 to-teal-900', image: '/images/jerrycan.png', category: 'Branding & Product Design', details: 'Developed a comprehensive brand identity that reflects the company\'s values and energy sector focus, including a user-friendly mobile app for customer engagement.' }
+    { 
+      id: 0, 
+      name: 'The Road Not Taken', 
+      description: 'Designed a book cover by blending illustration, typography, and branding, presented in professional mockup formats.', 
+      tags: ['Book Cover Design', 'Typography', 'Illustration'], 
+      color: 'from-purple-700 to-pink-900', 
+      image: '/images/bookcover.jpg', 
+      category: 'Book Design', 
+      details: 'This design combines modern typography with artistic illustration to create a visually striking book cover that captures essence of literary work.',
+      link: 'https://www.behance.net/gallery/237913805/Book-cover' 
+    },
+    { 
+      id: 1, 
+      name: 'Depy\'s Crisps', 
+      description: 'Designed a logo, landing page, and promotional adverts to showcase new product line, with packaging for three flavors tailored for children.', 
+      tags: ['Packaging Design', 'Logo Design', 'Brand Identity'], 
+      color: 'from-yellow-700 to-orange-900', 
+      image: '/images/snack.png', 
+      category: 'Packaging Design', 
+      details: 'Created vibrant, child-friendly packaging designs that stand out on shelves while maintaining brand consistency across all three flavor variants.',
+      link: 'https://www.behance.net/gallery/237914507/Depsys-Snack' 
+    },
+    { 
+      id: 2, 
+      name: 'Kilimanjaro Energies', 
+      description: 'Created a brand identity by crafting a distinctive logo and cohesive branded materials, along with a loyalty program mobile app design.', 
+      tags: ['Brand Identity', 'Logo Design', 'Mobile App Design'], 
+      color: 'from-green-700 to-teal-900', 
+      image: '/images/jerrycan.png', 
+      category: 'Branding & Product Design', 
+      details: 'Developed a comprehensive brand identity that reflects company\'s values and energy sector focus, including a user-friendly mobile app for customer engagement.',
+      link: 'https://www.behance.net/gallery/233940763/Kilimanjaro' 
+    }
   ];
   const skills = [
-    { name: 'Frontend Development', icon: <FaCode />, level: 90, color: 'from-blue-500 to-cyan-600', stats: 'React, Next.js, Typescript' },
-    { name: 'Mobile Development', icon: <FaMobileAlt />, level: 85, color: 'from-green-500 to-teal-600', stats: 'Kotlin' },
-    { name: 'Database Design', icon: <FaDatabase />, level: 80, color: 'from-purple-500 to-pink-600', stats: 'SQL, NoSQL, sqlite' },
-    { name: 'UI/UX Design', icon: <FaPalette />, level: 85, color: 'from-orange-500 to-red-600', stats: 'Figma, Adobe XD' },
-    { name: 'System Architecture', icon: <FaProjectDiagram />, level: 75, color: 'from-indigo-500 to-purple-600', stats: 'Lucid charts' },
-    { name: 'AI Integration', icon: <FaRobot />, level: 70, color: 'from-yellow-500 to-orange-600', stats: 'TensorFlow, PyTorch' }
+    { name: 'Frontend Development', icon: <FaCode />, color: 'from-blue-500 to-cyan-600', stats: 'React, Next.js, Typescript' },
+    { name: 'Mobile Development', icon: <FaMobileAlt />, color: 'from-green-500 to-teal-600', stats: 'Kotlin' },
+    { name: 'Database Design', icon: <FaDatabase />, color: 'from-purple-500 to-pink-600', stats: 'SQL, NoSQL, sqlite' },
+    { name: 'UI/UX Design', icon: <FaPalette />, color: 'from-orange-500 to-red-600', stats: 'Figma, Adobe XD' },
+    { name: 'System Architecture', icon: <FaProjectDiagram />, color: 'from-indigo-500 to-purple-600', stats: 'Lucid charts' },
+    { name: 'AI Integration', icon: <FaRobot />, color: 'from-yellow-500 to-orange-600', stats: 'TensorFlow, PyTorch' }
   ];
   const experienceCards = [
     { icon: <FaFire />, title: 'Passion Driven', description: 'My journey began with a love for gaming, sparking curiosity about how technology creates immersive experiences.', color: 'from-orange-500 to-red-600' },
@@ -146,13 +171,44 @@ export default function Home() {
     { name: 'Contacts', href: '#contact', angle: 60 }
   ];
   
+  // Close mobile menu when clicking on a link
+  const handleNavClick = () => {
+    setMobileMenuOpen(false);
+  };
+  
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
       {/* 2. Use the imported component here as the background */}
       <ParticleNetwork />
       
-      {/* Navigation - Large semicircle with buttons inside */}
-      <nav className="fixed -left-40 top-0 h-full w-48 md:w-64 z-20 flex flex-col items-center py-8">
+      {/* Mobile Menu Toggle Button - Only visible on small screens */}
+      <button
+        className="fixed top-6 left-6 z-50 md:hidden bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-full p-3 text-white"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
+        {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+      </button>
+      
+      {/* Mobile Navigation Menu - Only visible on small screens */}
+      <div className={`fixed top-0 left-0 h-full w-64 bg-gray-900 bg-opacity-95 backdrop-blur-md z-40 transform transition-transform duration-300 md:hidden ${
+        mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="flex flex-col p-6 pt-20">
+          {navItems.map((item, index) => (
+            <a
+              key={index}
+              href={item.href}
+              className="flex items-center py-4 text-lg font-medium hover:text-cyan-400 transition-colors"
+              onClick={handleNavClick}
+            >
+              {item.name}
+            </a>
+          ))}
+        </div>
+      </div>
+      
+      {/* Desktop Navigation - Large semicircle with buttons inside - Hidden on small screens */}
+      <nav className="fixed -left-40 top-0 h-full w-48 md:w-64 z-20 hidden md:flex flex-col items-center py-8">
         <div className="relative h-full flex items-center">
           <div className="absolute -left- top-1/2 transform -translate-y-1/2 w-50 h-96 md:w-[250px] md:h-[500px] bg-cyan-700 bg-opacity-30 rounded-r-full overflow-hidden"></div>
           <div className="relative w-full h-full flex items-center justify-center">
@@ -172,7 +228,7 @@ export default function Home() {
       </nav>
       
       {/* Main Content - Adjusted for larger left sidebar */}
-      <div className="ml-48 md:ml-20 relative z-10">
+      <div className="ml-0 md:ml-20 relative z-10">
         {/* Hero Section - Reduced height and padding */}
         <section className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Hi, I'm <span className="text-cyan-300">Fana Bezabih</span></h1>
@@ -218,7 +274,7 @@ export default function Home() {
                     <div className="space-y-4 text-gray-300">
                       <p className="text-lg leading-relaxed">
                         I'm a <span className="text-cyan-400 font-semibold">Software Engineer</span> who transforms ideas into 
-                        elegant digital solutions. My journey began with a fascination for gaming, where I discovered the magic 
+                        elegant digital solutions. My journey began with a fascination for gaming, where I discovered magic 
                         of creating immersive experiences through code.
                       </p>
                       
@@ -297,76 +353,28 @@ export default function Home() {
                 My<span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">Skills</span>
               </h3>
               
-              {/* Interactive Skill Sphere */}
-              <div className="relative mx-auto w-full max-w-4xl h-96 mb-16">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-64 h-64 md:w-80 md:h-80">
-                    {/* Central Sphere */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-900 to-purple-900 opacity-30 blur-xl"></div>
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-800 to-purple-800 opacity-50 flex items-center justify-center">
-                      <div className="text-center">
-                        <FaCogs className="text-5xl text-white mx-auto mb-2 animate-spin-slow" />
-                        <p className="text-white font-bold">Tech Stack</p>
-                      </div>
-                    </div>
-                    
-                    {/* Orbiting Skills */}
-                    {skills.map((skill, index) => {
-                      const angle = (index * 360) / skills.length;
-                      const radius = 140;
-                      const x = Math.cos((angle * Math.PI) / 180) * radius;
-                      const y = Math.sin((angle * Math.PI) / 180) * radius;
-                      
-                      return (
-                        <div
-                          key={index}
-                          className="absolute w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-900 border-2 border-gray-800 flex flex-col items-center justify-center transform transition-all duration-500 hover:scale-110 cursor-pointer"
-                          style={{
-                            left: '50%',
-                            top: '50%',
-                            marginLeft: '-40px',
-                            marginTop: '-40px',
-                            transform: `translate(${x}px, ${y}px)`,
-                          }}
-                          onMouseEnter={() => setHoveredSkill(index)}
-                          onMouseLeave={() => setHoveredSkill(null)}
-                        >
-                          <div className={`text-2xl ${skill.color.replace('from-', 'text-').split(' ')[0]}`}>
-                            {skill.icon}
-                          </div>
-                          <p className="text-xs text-gray-400 mt-1 text-center">{skill.name.split(' ')[0]}</p>
-                          
-                          {/* Tooltip on hover */}
-                          {hoveredSkill === index && (
-                            <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-gray-800 rounded-lg p-2 whitespace-nowrap z-10">
-                              <p className="text-sm text-white font-semibold">{skill.name}</p>
-                              <p className="text-xs text-gray-400">{skill.stats}</p>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-              
-              {/* Skill Details Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Skills Grid - Rectangular Cards without Percentages */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {skills.map((skill, index) => (
                   <div
                     key={index}
-                    className={`relative bg-gray-900 rounded-xl overflow-hidden transform transition-all duration-700 hover:scale-105 ${
+                    className={`relative group bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden transform transition-all duration-700 hover:scale-105 hover:shadow-2xl ${
                       hoveredSkill === index ? 'shadow-2xl' : ''
                     }`}
                     onMouseEnter={() => setHoveredSkill(index)}
                     onMouseLeave={() => setHoveredSkill(null)}
                   >
-                    {/* Card Header with Gradient */}
-                    <div className={`h-2 bg-gradient-to-r ${skill.color}`}></div>
+                    {/* Card Background Pattern */}
+                    <div className="absolute inset-0 opacity-5">
+                      <div className="absolute inset-0" style={{
+                        backgroundImage: `radial-gradient(circle at 10px 10px, rgba(255,255,255,0.2) 1px, transparent 0)`,
+                        backgroundSize: '20px 20px'
+                      }}></div>
+                    </div>
                     
-                    <div className="p-6">
+                    <div className="p-6 relative z-10">
                       <div className="flex items-center mb-4">
-                        <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${skill.color} flex items-center justify-center mr-4`}>
+                        <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center mr-4 shadow-lg transform group-hover:rotate-6 transition-transform duration-500`}>
                           {skill.icon}
                         </div>
                         <div>
@@ -375,34 +383,36 @@ export default function Home() {
                         </div>
                       </div>
                       
-                      {/* Animated Skill Bar */}
-                      <div className="mt-4">
-                        <div className="flex justify-between text-xs text-gray-500 mb-1">
-                          <span>Proficiency</span>
-                          <span>{skill.level}%</span>
-                        </div>
-                        <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
-                          <div 
-                            className={`h-full bg-gradient-to-r ${skill.color} rounded-full transition-all duration-1000 ease-out`}
-                            style={{ 
-                              width: hoveredSkill === index ? `${skill.level}%` : '0%',
-                              transitionDelay: hoveredSkill === index ? '0ms' : '500ms'
-                            }}
-                          ></div>
-                        </div>
-                      </div>
-                      
                       {/* Skill Tags */}
-                      <div className="mt-4 flex flex-wrap gap-2">
+                      <div className="mt-6 flex flex-wrap gap-2">
                         {skill.stats.split(', ').map((tech, techIndex) => (
-                          <span key={techIndex} className="px-2 py-1 bg-gray-800 rounded text-xs text-gray-400">
+                          <span key={techIndex} className="px-3 py-1 bg-gray-800 rounded-full text-xs text-gray-400 border border-gray-700 group-hover:border-gray-600 transition-colors">
                             {tech}
                           </span>
                         ))}
                       </div>
+                      
+                      {/* Hover Effect Overlay */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none`}></div>
                     </div>
                   </div>
                 ))}
+              </div>
+              
+              {/* Skills Summary */}
+              <div className="mt-12 text-center">
+                <div className="inline-flex items-center px-6 py-3 bg-gray-800 rounded-full">
+                  <div className="flex -space-x-2">
+                    {skills.slice(0, 5).map((skill, index) => (
+                      <div key={index} className={`w-10 h-10 rounded-full bg-gradient-to-br ${skill.color} flex items-center justify-center border-2 border-gray-900`}>
+                        {skill.icon}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="ml-4 text-gray-300">
+                    And <span className="text-cyan-400 font-semibold">more</span> in my tech stack
+                  </p>
+                </div>
               </div>
             </div>
             
@@ -762,9 +772,15 @@ export default function Home() {
                         </div>
                         
                         <div className="flex gap-4">
-                          <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-700">
+                          <a 
+                            href={selectedDesign.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-700 flex items-center"
+                          >
                             View Full Project
-                          </button>
+                            <FaExternalLinkAlt className="ml-2" />
+                          </a>
                           <button 
                             className="px-6 py-3 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-800 transition-all duration-700"
                             onClick={() => setSelectedDesign(null)}
@@ -796,8 +812,6 @@ export default function Home() {
                     ) : (
                       <Image
                         src="/images/akirachix.png" 
-
-                        
                         alt="AkiraChix Logo"
                         fill
                         className="object-contain p-2"
@@ -860,12 +874,17 @@ export default function Home() {
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
                 <div className="relative bg-gray-900 rounded-lg p-8 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                    <FaEnvelope className="text-3xl text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Email</h3>
-                  <a href="mailto:fana.bezabih@example.com" className="text-cyan-400 hover:text-cyan-300 transition-colors">
-                    fana.bezabih@example.com
+                  <a 
+                    href="mailto:fanabezabih@gmail.com"
+                    className="cursor-pointer"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
+                      <FaEnvelope className="text-3xl text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">Email</h3>
+                    <span className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                      fanabezabih@gmail.com
+                    </span>
                   </a>
                 </div>
               </div>
@@ -874,12 +893,19 @@ export default function Home() {
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
                 <div className="relative bg-gray-900 rounded-lg p-8 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                    <FaLinkedin className="text-3xl text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">LinkedIn</h3>
-                  <a href="https://linkedin.com/in/fanabezabih" className="text-cyan-400 hover:text-cyan-300 transition-colors">
-                    Connect with me
+                  <a 
+                    href="https://www.linkedin.com/in/fana-bezabih-027713326"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-pointer"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
+                      <FaLinkedin className="text-3xl text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">LinkedIn</h3>
+                    <span className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                      Connect with me
+                    </span>
                   </a>
                 </div>
               </div>
@@ -888,12 +914,19 @@ export default function Home() {
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
                 <div className="relative bg-gray-900 rounded-lg p-8 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                    <FaGithub className="text-3xl text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">GitHub</h3>
-                  <a href="https://github.com/fanabezabih" className="text-cyan-400 hover:text-cyan-300 transition-colors">
-                    Check my work
+                  <a 
+                    href="https://github.com/fanabezabih"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-pointer"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
+                      <FaGithub className="text-3xl text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">GitHub</h3>
+                    <span className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                      Check my work
+                    </span>
                   </a>
                 </div>
               </div>
@@ -909,12 +942,12 @@ export default function Home() {
                       <input 
                         type="text" 
                         id="name" 
-                        className="peer w-full bg-gray-800 border-0 border-b-2 border-gray-700 rounded-t-lg px-4 py-3 text-white placeholder-transparent focus:outline-none focus:border-cyan-400 transition-colors"
+                        className="peer w-full bg-gray-800 border-0 border-b-2 border-gray-700 rounded-t-lg px-4 py-3 text-white  placeholder-transparent focus:outline-none focus:border-cyan-400 transition-colors"
                         placeholder="Your Name"
                       />
                       <label 
                         htmlFor="name" 
-                        className="absolute left-0 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
+                        className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
                       >
                         Your Name
                       </label>
@@ -928,7 +961,7 @@ export default function Home() {
                       />
                       <label 
                         htmlFor="email" 
-                        className="absolute left-0 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
+                        className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
                       >
                         Your Email
                       </label>
@@ -943,10 +976,10 @@ export default function Home() {
                     />
                     <label 
                       htmlFor="subject" 
-                      className="absolute left-0 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
-                    >
-                      Subject
-                    </label>
+                      className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
+                      >
+                        Subject
+                      </label>
                   </div>
                   <div className="relative">
                     <textarea 
@@ -957,18 +990,23 @@ export default function Home() {
                     ></textarea>
                     <label 
                       htmlFor="message" 
-                      className="absolute left-0 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
-                    >
-                      Your Message
-                    </label>
+                      className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
+                      >
+                        Your Message
+                      </label>
                   </div>
                   <div className="flex justify-center">
+                        <a 
+                    href="mailto:fanabezabih@gmail.com"
+                    className="cursor-pointer"
+                  >
                     <button 
                       type="submit" 
                       className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-700 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-50"
                     >
                       Send Message
                     </button>
+                    </a>
                   </div>
                 </form>
               </div>
@@ -977,20 +1015,12 @@ export default function Home() {
             <div className="mt-20 text-center">
               <div className="inline-flex items-center space-x-2 mb-4">
                 <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                <p className="text-gray-500">Referees available upon request</p>
+              
+                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+
                 <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
               </div>
-              <div className="flex justify-center space-x-4">
-                <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center transform hover:rotate-12 transition-transform duration-300">
-                  <FaRocket className="text-cyan-400" />
-                </div>
-                <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center transform hover:rotate-12 transition-transform duration-300">
-                  <FaHeart className="text-pink-400" />
-                </div>
-                <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center transform hover:rotate-12 transition-transform duration-300">
-                  <FaStar className="text-yellow-400" />
-                </div>
-              </div>
+           
             </div>
           </div>
         </section>

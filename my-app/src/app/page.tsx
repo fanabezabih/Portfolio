@@ -104,7 +104,7 @@ export default function Home() {
       icon: <FaUsers />,
       links: { research: '#', prd: '#', architecture: '#', design: '#', schema: '#', website: '#' },
       tech: ['React', 'Node.js', 'MongoDB', 'Stripe API'],
-      impact: 'Serving 500+ community members with secure financial management'
+      impact: 'Helping community members with secure financial management'
     },
     {
       id: 1,
@@ -117,7 +117,7 @@ export default function Home() {
       icon: <FaMobile />,
       links: { report: '#', design: '#', website: '#', architecture: '#', schema: '#', api: '#', dashboard: '#' },
       tech: ['Kotlin', 'Express.js', 'PostgreSQL', 'Google Maps API'],
-      impact: 'Increased vendor sales by 40% and expanded customer reach by 60%'
+      impact: 'Increased vendor sales by and expanded customer reach.'
     }
   ];
   const designProjects = [

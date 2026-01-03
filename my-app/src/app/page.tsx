@@ -1163,7 +1163,7 @@ export default function Home() {
         
         {/* Footer */}
         <footer className="py-8 px-6 text-center text-gray-600 border-t border-gray-900">
-          <p>&copy; {new Date().getFullYear()} Fana Bezabih. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Fana Asmelash. All rights reserved.</p>
         </footer>
       </div>
     </div>

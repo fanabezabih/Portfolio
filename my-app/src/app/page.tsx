@@ -432,7 +432,7 @@ export default function Home() {
                 </p>
                 <FaQuoteRight className="absolute -bottom-8 -right-8 text-6xl text-purple-500 opacity-20" />
               </div>
-              <p className="mt-8 text-cyan-400 font-semibold">— Fana Bezabih</p>
+              <p className="mt-8 text-cyan-400 font-semibold">— Fana Asmelash</p>
             </div>
           </div>
         </section>

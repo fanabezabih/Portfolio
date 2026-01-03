@@ -102,8 +102,8 @@ export default function Home() {
       color: 'from-cyan-700 to-blue-900',
       image: '/images/phones.png',
       icon: <FaUsers />,
-      links: { research: '#', prd: '#', architecture: '#', design: '#', schema: '#', website: '#' },
-      tech: ['React', 'Node.js', 'MongoDB', 'Stripe API'],
+      links: { research: 'https://docs.google.com/document/d/1jJE2k4O-OxqpKgJdT_ZRPFLkquj1qkjuHtBVS743ehw/edit?tab=t.pg149zfd6mjv', prd: 'https://docs.google.com/document/d/1pkJKPZGg1qWEkooqQIQneOj7-L8N44GgH6TaoJiF01g/edit?tab=t.0', architecture: 'https://lucid.app/lucidchart/5b591621-374c-4fe3-8fe9-f8877f7ce3ba/edit?invitationId=inv_5efca279-a249-403a-819a-90fb701e0782&page=0_0#', design: 'https://www.figma.com/design/kijpne0VzuMYGqYBwrlJin/IddirNet?node-id=28-2&t=KTx5HRHDbjYs77QP-1', schema: 'https://docs.google.com/document/d/1xyHtdBWPOs8s2bPTpdCc5FZ2CyJ2FYp98epjawF02FE/edit?tab=t.0', website: 'https://iddirnet.vercel.app/' },
+      tech: ['React', 'Node.js', 'MongoDB', ' LocationIQ API'],
       impact: 'Helping community members with secure financial management'
     },
     {
@@ -115,7 +115,7 @@ export default function Home() {
       color: 'from-blue-800 to-indigo-900',
       image: '/images/safi.png', 
       icon: <FaMobile />,
-      links: { report: '#', design: '#', website: '#', architecture: '#', schema: '#', api: '#', dashboard: '#' },
+      links: { report: 'https://docs.google.com/document/d/1jLrwFGQpjFNA2cP-ozGEM6GJqe01_O6QaKO8UjF4DJc/edit?tab=t.0', design: 'https://www.figma.com/design/neV9t33HSy5WE2IHlVgwNH/Big_Minds-Design?node-id=424-128&p=f&t=g543HeO23WnsQAPW-0', website: 'https://safigreeens.netlify.app/', architecture: 'https://lucid.app/lucidchart/7263de22-187a-420f-a047-80f08c20bb45/edit?page=0_0#', schema: 'https://docs.google.com/document/d/1nBUwGl-M9WPPRQFyOyziClrIzs7n2JW9W98e9jOl9_Y/edit?usp=sharing', api: 'https://safigreens-ae7369bd05fc.herokuapp.com/api/', dashboard: 'https://safiigreens-admins.vercel.app/' },
       tech: ['Kotlin', 'React', 'PostgreSQL', 'Google Maps API'],
       impact: 'Increased vendor sales by and expanded customer reach.'
     }

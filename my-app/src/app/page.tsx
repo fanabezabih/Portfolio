@@ -116,7 +116,7 @@ export default function Home() {
       image: '/images/safi.png', 
       icon: <FaMobile />,
       links: { report: '#', design: '#', website: '#', architecture: '#', schema: '#', api: '#', dashboard: '#' },
-      tech: ['Kotlin', 'Express.js', 'PostgreSQL', 'Google Maps API'],
+      tech: ['Kotlin', 'React', 'PostgreSQL', 'Google Maps API'],
       impact: 'Increased vendor sales by and expanded customer reach.'
     }
   ];

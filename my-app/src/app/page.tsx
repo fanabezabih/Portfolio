@@ -119,7 +119,7 @@ export default function Home() {
       icon: <FaMobile />,
       links: { report: 'https://docs.google.com/document/d/1jLrwFGQpjFNA2cP-ozGEM6GJqe01_O6QaKO8UjF4DJc/edit?tab=t.0', design: 'https://www.figma.com/design/neV9t33HSy5WE2IHlVgwNH/Big_Minds-Design?node-id=424-128&p=f&t=g543HeO23WnsQAPW-0', website: 'https://safigreeens.netlify.app/', architecture: 'https://lucid.app/lucidchart/7263de22-187a-420f-a047-80f08c20bb45/edit?page=0_0#', schema: 'https://docs.google.com/document/d/1nBUwGl-M9WPPRQFyOyziClrIzs7n2JW9W98e9jOl9_Y/edit?usp=sharing', api: 'https://safigreens-ae7369bd05fc.herokuapp.com/api/', dashboard: 'https://safiigreens-admins.vercel.app/' },
       tech: ['Kotlin', 'React', 'PostgreSQL', 'Google Maps API'],
-      impact: 'Increased vendor sales by and expanded customer reach.'
+      impact: 'Increased vendor sales and expanded customer reach.'
     }
   ];
   const designProjects = [

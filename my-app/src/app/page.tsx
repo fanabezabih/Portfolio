@@ -167,7 +167,7 @@ export default function Home() {
     { name: 'Frontend Development', icon: <FaCode />, color: 'from-blue-500 to-cyan-600', stats: 'React, Next.js, Typescript' },
     { name: 'Mobile Development', icon: <FaMobileAlt />, color: 'from-green-500 to-teal-600', stats: 'Kotlin' },
     { name: 'Database Design', icon: <FaDatabase />, color: 'from-purple-500 to-pink-600', stats: 'SQL, NoSQL, sqlite' },
-    { name: 'UI/UX Design', icon: <FaPalette />, color: 'from-orange-500 to-red-600', stats: 'Figma, Adobe XD' },
+    { name: 'UI/UX Design', icon: <FaPalette />, color: 'from-orange-500 to-red-600', stats: 'Figma, Adobe Photoshop and Illustrator.' },
     { name: 'System Architecture', icon: <FaProjectDiagram />, color: 'from-indigo-500 to-purple-600', stats: 'Lucid charts' },
     { name: 'AI Integration', icon: <FaRobot />, color: 'from-yellow-500 to-orange-600', stats: 'TensorFlow, PyTorch' }
   ];

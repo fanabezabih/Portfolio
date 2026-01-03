@@ -159,7 +159,7 @@ export default function Home() {
   // UPDATED: Filenames and Titles
   const photos = [
     { id: 1, src: '/images/arts.jpg', category: 'Portrait', title: 'Urban Canvas' },
-    { id: 2, src: '/images/moments.jpg', category: 'Memories', title: 'Chasing Light' },
+    { id: 2, src: '/images/monments.jpg', category: 'Memories', title: 'Chasing Light' },
     { id: 3, src: '/images/plants.jpg', category: 'Nature', title: 'Verdant Life' },
   ];
 

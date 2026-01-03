@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaMobileAlt, FaDatabase, FaPalette, FaProjectDiagram, FaRobot, FaGamepad, FaArrowRight, FaCheckCircle, FaEye, FaQuoteLeft, FaQuoteRight, FaLightbulb, FaHeart, FaRocket, FaTrophy, FaGraduationCap, FaUsers, FaLaptopCode, FaStar, FaAward, FaBrain, FaCogs, FaMagic, FaFire, FaExternalLinkAlt, FaCodeBranch, FaLayerGroup, FaMobile, FaWaveSquare, FaBars, FaTimes } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaMobileAlt, FaDatabase, FaPalette, FaProjectDiagram, FaRobot, FaGamepad, FaArrowRight, FaCheckCircle, FaEye, FaQuoteLeft, FaQuoteRight, FaLightbulb, FaHeart, FaRocket, FaTrophy, FaGraduationCap, FaUsers, FaLaptopCode, FaStar, FaAward, FaBrain, FaCogs, FaMagic, FaFire, FaExternalLinkAlt, FaCodeBranch, FaLayerGroup, FaMobile, FaWaveSquare, FaBars, FaTimes, FaBehance, FaCamera } from 'react-icons/fa';
 
 import ParticleNetwork from './components/ParticleNetwork';
 
@@ -26,6 +26,9 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const aboutRef = useRef<HTMLDivElement>(null);
   
+  // NEW: State for Photography Carousel
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+
   const roles = ['Software Engineer', 'Full Stack Developer', 'UI/UX Designer', 'Mobile Developer'];
   
   useEffect(() => {
@@ -78,6 +81,15 @@ export default function Home() {
         observer.unobserve(aboutRef.current);
       }
     };
+  }, []);
+
+  // NEW: Auto-play carousel for photography (Exchange every 3 seconds)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPhotoIndex((prevIndex) => (prevIndex + 1) % photos.length);
+    }, 3000); // 3000ms = 3 seconds
+
+    return () => clearInterval(interval);
   }, []);
   
   const projects = [
@@ -143,6 +155,14 @@ export default function Home() {
       link: 'https://www.behance.net/gallery/233940763/Kilimanjaro' 
     }
   ];
+  
+  // UPDATED: Filenames and Titles
+  const photos = [
+    { id: 1, src: '/images/arts.jpg', category: 'Portrait', title: 'Urban Canvas' },
+    { id: 2, src: '/images/moments.jpg', category: 'Memories', title: 'Chasing Light' },
+    { id: 3, src: '/images/plants.jpg', category: 'Nature', title: 'Verdant Life' },
+  ];
+
   const skills = [
     { name: 'Frontend Development', icon: <FaCode />, color: 'from-blue-500 to-cyan-600', stats: 'React, Next.js, Typescript' },
     { name: 'Mobile Development', icon: <FaMobileAlt />, color: 'from-green-500 to-teal-600', stats: 'Kotlin' },
@@ -156,12 +176,6 @@ export default function Home() {
     { icon: <FaBrain />, title: 'Creative Problem Solver', description: 'I approach challenges with innovative thinking, always seeking elegant solutions to complex problems.', color: 'from-purple-500 to-pink-600' },
     { icon: <FaCogs />, title: 'Full Stack Expert', description: 'From frontend aesthetics to backend architecture, I build complete, robust applications.', color: 'from-blue-500 to-cyan-600' },
     { icon: <FaMagic />, title: 'Design Focused', description: 'I believe great code deserves great design, creating experiences that users love.', color: 'from-green-500 to-teal-600' }
-  ];
-  const achievements = [
-    { icon: <FaStar />, label: 'Top Performer', color: 'text-yellow-400' },
-    { icon: <FaAward />, label: 'Best Project', color: 'text-purple-400' },
-    { icon: <FaTrophy />, label: 'Hackathon Winner', color: 'text-orange-400' },
-    { icon: <FaRocket />, label: 'Fast Learner', color: 'text-blue-400' }
   ];
   const navItems = [
     { name: 'About', href: '#about', angle: -60 },
@@ -185,7 +199,7 @@ export default function Home() {
       <button
         className="fixed top-6 left-6 z-50 md:hidden bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-full p-3 text-white"
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >
+      >   
         {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
       </button>
       
@@ -231,7 +245,7 @@ export default function Home() {
       <div className="ml-0 md:ml-20 relative z-10">
         {/* Hero Section - Reduced height and padding */}
         <section className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">Hi, I'm <span className="text-cyan-300">Fana Bezabih</span></h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">Hi, I'm <span className="text-cyan-300">Fana Asmelash</span></h1>
           <div className="text-2xl md:text-3xl mb-8 h-10"><span className="text-gray-400">{text}</span><span className="animate-pulse" style={{ animationDuration: '2s' }}>|</span></div>
           <p className="max-w-2xl mb-10 text-gray-400 text-lg">Passionate about creating innovative tech solutions that bridge gaps and enhance user experiences. From gaming inspiration to real-world applications, I love turning ideas into reality.</p>
           <div className="flex space-x-4 mb-8">
@@ -291,15 +305,7 @@ export default function Home() {
                       </p>
                     </div>
                     
-                    {/* Achievement Badges */}
-                    <div className="flex flex-wrap gap-3 mt-8">
-                      {achievements.map((achievement, index) => (
-                        <div key={index} className="flex items-center space-x-2 px-4 py-2 bg-gray-800 rounded-full">
-                          <span className={achievement.color}>{achievement.icon}</span>
-                          <span className="text-sm text-gray-400">{achievement.label}</span>
-                        </div>
-                      ))}
-                    </div>
+                    {/* Achievement Badges - REMOVED AS REQUESTED */}
                   </div>
                 </div>
               </div>
@@ -648,6 +654,96 @@ export default function Home() {
           </div>
         </section>
         
+        {/* Education Section - MOVED HERE */}
+        <section id="education" className="py-20 px-6">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold mb-12 text-center">
+              My <span className="text-cyan-400">Education</span>
+            </h2>
+            
+            <div className="space-y-12">
+              {/* MIT Entry */}
+              <div className="bg-gray-900 rounded-xl p-8 md:p-12">
+                <div className="flex flex-col md:flex-row items-center mb-8">
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-r from-gray-700 to-gray-800 p-1 mb-6 md:mb-0 md:mr-8 flex items-center justify-center">
+                    {/* Using Icon for MIT */}
+                    <div className="text-3xl font-bold text-white">
+                       MIT
+                    </div>
+                  </div>
+                  <div className="text-center md:text-left">
+                    <h3 className="text-2xl md:text-3xl font-bold mb-2">MIT</h3>
+                    <p className="text-xl text-gray-400 mb-4">Computer Science and Engineering</p>
+                    <p className="text-gray-500 mb-4">September 2023 – January 2025</p>
+                    <p className="text-gray-400">
+                      Comprehensive curriculum covering digital logic design, circuit analysis, and programming. 
+                      Developed strong foundational skills in C programming and electronic principles.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* MIT Course List */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                  {['Digital and Logic Design', 'ECA (Circuit Course)', 'C Programming Language', 'Microprocessors'].map((course, index) => (
+                    <div key={index} className="flex items-center p-3 bg-gray-800 rounded-lg">
+                      <FaCheckCircle className="text-cyan-500 mr-3" />
+                      <span className="text-gray-300">{course}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* AkiraChix Entry */}
+              <div className="bg-gray-900 rounded-xl p-8 md:p-12">
+                <div className="flex flex-col md:flex-row items-center mb-8">
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-r from-cyan-800 to-blue-900 p-1 mb-6 md:mb-0 md:mr-8">
+                    <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                      {imageError['education-logo'] ? (
+                        <span className="text-2xl md:text-3xl font-bold text-cyan-400">AC</span>
+                      ) : (
+                        <Image
+                          src="/images/Skirachix.png" 
+                          alt="AkiraChix Logo"
+                          fill
+                          className="object-contain p-2"
+                          sizes="(max-width: 768px) 80px, 96px"
+                          onError={() => setImageError(prev => ({ ...prev, 'education-logo': true }))}
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-center md:text-left">
+                    <h3 className="text-2xl md:text-3xl font-bold mb-2">AkiraChix</h3>
+                    <p className="text-xl text-gray-400 mb-4">Diploma in Information Technology</p>
+                    <p className="text-gray-500 mb-4">February 2025 – November 2025</p>
+                    <p className="text-gray-400">
+                      CodeHive program specializing in Backend Development, Frontend Web Development, Mobile Development, 
+                      Data and Machine Learning, User Experience (UX) Research, UI/UX Design, 
+                      Product Management, and Quality Assurance.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* AkiraChix Course List */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                  {['Backend Development', 'Frontend Web Development', 'Mobile Development', 'Data & ML'].map((course, index) => (
+                    <div key={index} className="flex items-center p-3 bg-gray-800 rounded-lg">
+                      <FaCheckCircle className="text-cyan-500 mr-3" />
+                      <span className="text-gray-300">{course}</span>
+                    </div>
+                  ))}
+                  {['UX Research', 'UI/UX Design', 'Product Management', 'Quality Assurance'].map((course, index) => (
+                    <div key={index + 4} className="flex items-center p-3 bg-gray-800 rounded-lg">
+                      <FaCheckCircle className="text-cyan-500 mr-3" />
+                      <span className="text-gray-300">{course}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Design Section */}
         <section id="design" className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
@@ -796,57 +892,75 @@ export default function Home() {
             )}
           </div>
         </section>
-        
-        {/* Education Section */}
-        <section id="education" className="py-20 px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center">
-              My <span className="text-cyan-400">Education</span>
-            </h2>
-            <div className="bg-gray-900 rounded-xl p-8 md:p-12">
-              <div className="flex flex-col md:flex-row items-center mb-8">
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-r from-cyan-800 to-blue-900 p-1 mb-6 md:mb-0 md:mr-8">
-                  <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                    {imageError['education-logo'] ? (
-                      <span className="text-2xl md:text-3xl font-bold text-cyan-400">AC</span>
-                    ) : (
-                      <Image
-                        src="/images/akirachix.png" 
-                        alt="AkiraChix Logo"
-                        fill
-                        className="object-contain p-2"
-                        sizes="(max-width: 768px) 96px, 128px"
-                        onError={() => setImageError(prev => ({ ...prev, 'education-logo': true }))}
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className="text-center md:text-left">
-                  <h3 className="text-2xl md:text-3xl font-bold mb-2">AkiraChix codeHive</h3>
-                  <p className="text-xl text-gray-400 mb-4">Diploma in Information Technology</p>
-                  <p className="text-gray-500 mb-4">February 2025 – Present</p>
-                  <p className="text-gray-400">
-                    Specializing in Backend Development, Frontend Web Development, Mobile Development, 
-                    Data and Machine Learning, User Experience (UX) Research, UI/UX Design, 
-                    Product Management, and Quality Assurance.
-                  </p>
+
+        {/* NEW Photography Section - REDESIGNED AS 3-CARD CAROUSEL */}
+        <section id="photography" className="py-20 px-6 bg-gray-950">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                Captured <span className="bg-gradient-to-r from-pink-400 to-orange-500 bg-clip-text text-transparent">Moments</span>
+              </h2>
+              <p className="text-gray-400 max-w-2xl mx-auto">
+                Photography is an inspiration for great design as well. It allows me to capture composition, color, and aesthetics that directly influence my UI/UX and graphic design work.
+              </p>
+            </div>
+            
+            {/* Carousel Container - Single Card with Auto-Swap */}
+            <div className="relative group w-full max-w-4xl mx-auto h-[500px]">
+              {/* Main Card Container */}
+              <div className="absolute inset-0 bg-gray-900 rounded-3xl shadow-2xl border border-gray-800 overflow-hidden">
+                
+                {/* Active Photo with Key for Next.js Image Optimization */}
+                <Image
+                  key={photos[currentPhotoIndex].id} 
+                  src={photos[currentPhotoIndex].src}
+                  alt={photos[currentPhotoIndex].title}
+                  fill
+                  className="object-contain w-full h-full transition-opacity duration-700" // Changed to object-contain to fix zooming
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  onError={() => setImageError(prev => ({ ...prev, [`photo-${photos[currentPhotoIndex].id}`]: true }))}
+                />
+                
+                {/* Gradient Overlay for Text Readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/70"></div>
+                
+                {/* Photo Info Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col items-start justify-end z-10">
+                  <span className="text-xs font-bold text-pink-400 uppercase tracking-wider mb-1 animate-pulse">
+                    {photos[currentPhotoIndex].category}
+                  </span>
+                  <h3 className="text-4xl font-bold text-white drop-shadow-md">
+                    {photos[currentPhotoIndex].title}
+                  </h3>
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-                {['Backend Development', 'Frontend Web Development', 'Mobile Development', 'Data & ML'].map((course, index) => (
-                  <div key={index} className="flex items-center p-3 bg-gray-800 rounded-lg">
-                    <FaCheckCircle className="text-cyan-500 mr-3" />
-                    <span className="text-gray-300">{course}</span>
-                  </div>
-                ))}
-                {['UX Research', 'UI/UX Design', 'Product Management', 'Quality Assurance'].map((course, index) => (
-                  <div key={index + 4} className="flex items-center p-3 bg-gray-800 rounded-lg">
-                    <FaCheckCircle className="text-cyan-500 mr-3" />
-                    <span className="text-gray-300">{course}</span>
-                  </div>
+              {/* Navigation Indicators (Dots) */}
+              <div className="absolute -bottom-6 left-0 right-0 flex justify-center space-x-3 z-20">
+                {photos.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentPhotoIndex(idx)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      currentPhotoIndex === idx ? 'bg-pink-500 scale-125' : 'bg-gray-600 hover:bg-gray-500'
+                    }`}
+                    aria-label={`View photo ${idx + 1}`}
+                  />
                 ))}
               </div>
+            </div>
+          
+            {/* UPDATED Footer Link - POINTS TO SPECIFIC USER */}
+            <div className="mt-12 text-center">
+              <a 
+                href="https://www.instagram.com/fanu_nti" // Specific Username Link
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center space-x-2 text-gray-400 hover:text-pink-400 transition-colors border-b border-transparent hover:border-pink-400 pb-1"
+              >
+                <span>See more on my Instagram</span>
+                <FaArrowRight className="text-sm" />
+              </a>
             </div>
           </div>
         </section>
@@ -869,20 +983,21 @@ export default function Home() {
             </p>
             
             {/* Interactive Contact Cards */}
-            <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {/* Changed grid to accommodate 4 items */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
               {/* Email Card */}
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
-                <div className="relative bg-gray-900 rounded-lg p-8 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
+                <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
                   <a 
                     href="mailto:fanabezabih@gmail.com"
                     className="cursor-pointer"
                   >
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                      <FaEnvelope className="text-3xl text-white" />
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
+                      <FaEnvelope className="text-2xl text-white" />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Email</h3>
-                    <span className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                    <h3 className="text-lg font-bold mb-1">Email</h3>
+                    <span className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
                       fanabezabih@gmail.com
                     </span>
                   </a>
@@ -892,18 +1007,18 @@ export default function Home() {
               {/* LinkedIn Card */}
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
-                <div className="relative bg-gray-900 rounded-lg p-8 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
+                <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
                   <a 
                     href="https://www.linkedin.com/in/fana-bezabih-027713326"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cursor-pointer"
                   >
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                      <FaLinkedin className="text-3xl text-white" />
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
+                      <FaLinkedin className="text-2xl text-white" />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">LinkedIn</h3>
-                    <span className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                    <h3 className="text-lg font-bold mb-1">LinkedIn</h3>
+                    <span className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
                       Connect with me
                     </span>
                   </a>
@@ -913,19 +1028,40 @@ export default function Home() {
               {/* GitHub Card */}
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
-                <div className="relative bg-gray-900 rounded-lg p-8 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
+                <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
                   <a 
                     href="https://github.com/fanabezabih"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cursor-pointer"
                   >
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                      <FaGithub className="text-3xl text-white" />
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
+                      <FaGithub className="text-2xl text-white" />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">GitHub</h3>
-                    <span className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                    <h3 className="text-lg font-bold mb-1">GitHub</h3>
+                    <span className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
                       Check my work
+                    </span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Behance Card - NEW */}
+              <div className="group relative">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
+                <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
+                  <a 
+                    href="https://www.behance.net/fanabezabih" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-pointer"
+                  >
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
+                      <FaBehance className="text-2xl text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold mb-1">Behance</h3>
+                    <span className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
+                      View Design
                     </span>
                   </a>
                 </div>
@@ -979,7 +1115,7 @@ export default function Home() {
                       className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
                       >
                         Subject
-                      </label>
+                    </label>
                   </div>
                   <div className="relative">
                     <textarea 
@@ -993,7 +1129,7 @@ export default function Home() {
                       className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
                       >
                         Your Message
-                      </label>
+                    </label>
                   </div>
                   <div className="flex justify-center">
                         <a 

@@ -102,6 +102,7 @@ export default function Home() {
       color: 'from-cyan-700 to-blue-900',
       image: '/images/phones.png',
       icon: <FaUsers />,
+      link: 'https://play.google.com/store/apps/details?id=com.iddirnet.iddirnet&pcampaignid=web_share',
       links: { research: 'https://docs.google.com/document/d/1jJE2k4O-OxqpKgJdT_ZRPFLkquj1qkjuHtBVS743ehw/edit?tab=t.pg149zfd6mjv', prd: 'https://docs.google.com/document/d/1pkJKPZGg1qWEkooqQIQneOj7-L8N44GgH6TaoJiF01g/edit?tab=t.0', architecture: 'https://lucid.app/lucidchart/5b591621-374c-4fe3-8fe9-f8877f7ce3ba/edit?invitationId=inv_5efca279-a249-403a-819a-90fb701e0782&page=0_0#', design: 'https://www.figma.com/design/kijpne0VzuMYGqYBwrlJin/IddirNet?node-id=28-2&t=KTx5HRHDbjYs77QP-1', schema: 'https://docs.google.com/document/d/1xyHtdBWPOs8s2bPTpdCc5FZ2CyJ2FYp98epjawF02FE/edit?tab=t.0', website: 'https://iddirnet.vercel.app/' },
       tech: ['React', 'Node.js', 'MongoDB', ' LocationIQ API'],
       impact: 'Helping community members with secure financial management'
@@ -110,6 +111,7 @@ export default function Home() {
       id: 1,
       name: 'SafiGreens',
       shortDescription: 'Connecting local vendors with customers',
+      link: 'https://safigreeens.netlify.app/',
       fullDescription: 'An end-to-end mobile app connecting local vegetable vendors with customers to increase sales and improve food accessibility.',
       tags: ['Mobile Development', 'API Development', 'Dashboard'],
       color: 'from-blue-800 to-indigo-900',
@@ -581,10 +583,15 @@ export default function Home() {
                           </span>
                         ))}
                       </div>
-                      <button className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-medium hover:from-cyan-600 hover:to-blue-600 transition-all duration-700 flex items-center">
-                        View Live Project
-                        <FaArrowRight className="ml-2" />
-                      </button>
+                     <a
+  href={projects[activeProject].link}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-medium hover:from-cyan-600 hover:to-blue-600 transition-all duration-700 flex items-center"
+>
+  View Live Project
+  <FaArrowRight className="ml-2" />
+</a>
                     </div>
                   )}
                   

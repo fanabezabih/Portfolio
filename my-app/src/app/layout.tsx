@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "Web Developer Portfolio", 
 
   verification: {
-    google: "oFk0CtEMDf8gsOQwoLMKueoql2PgGQWLHFdx9YMMlJw", // Paste your full code here
+    google: "oFk0CtEMDf8gsOQwoLMKueoql2PgGQWLHFdx9YMMlJw", 
   },
 };
 

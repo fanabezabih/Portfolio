@@ -26,7 +26,7 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const aboutRef = useRef<HTMLDivElement>(null);
   
-  // NEW: State for Photography Carousel
+ 
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const roles = ['Software Engineer', 'Full Stack Developer', 'UI/UX Designer', 'Mobile Developer'];
@@ -83,11 +83,10 @@ export default function Home() {
     };
   }, []);
 
-  // NEW: Auto-play carousel for photography (Exchange every 3 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPhotoIndex((prevIndex) => (prevIndex + 1) % photos.length);
-    }, 3000); // 3000ms = 3 seconds
+    }, 3000); 
 
     return () => clearInterval(interval);
   }, []);

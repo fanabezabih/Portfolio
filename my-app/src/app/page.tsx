@@ -52,7 +52,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [text, isDeleting, loopNum, typingSpeed]);
   
-  // Parallax scroll effect
+
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
@@ -157,7 +157,7 @@ export default function Home() {
     }
   ];
   
-  // UPDATED: Filenames and Titles
+
   const photos = [
     { id: 1, src: '/images/arts.jpg', category: 'Portrait', title: 'Urban Canvas' },
     { id: 2, src: '/images/monments.jpg', category: 'Memories', title: 'Chasing Light' },
@@ -186,17 +186,17 @@ export default function Home() {
     { name: 'Contacts', href: '#contact', angle: 60 }
   ];
   
-  // Close mobile menu when clicking on a link
+
   const handleNavClick = () => {
     setMobileMenuOpen(false);
   };
   
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* 2. Use the imported component here as the background */}
+
       <ParticleNetwork />
       
-      {/* Mobile Menu Toggle Button - Only visible on small screens */}
+   
       <button
         className="fixed top-6 left-6 z-50 md:hidden bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-full p-3 text-white"
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -204,7 +204,7 @@ export default function Home() {
         {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
       </button>
       
-      {/* Mobile Navigation Menu - Only visible on small screens */}
+
       <div className={`fixed top-0 left-0 h-full w-64 bg-gray-900 bg-opacity-95 backdrop-blur-md z-40 transform transition-transform duration-300 md:hidden ${
         mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
@@ -221,8 +221,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-      
-      {/* Desktop Navigation - Large semicircle with buttons inside - Hidden on small screens */}
+ 
       <nav className="fixed -left-40 top-0 h-full w-48 md:w-64 z-20 hidden md:flex flex-col items-center py-8">
         <div className="relative h-full flex items-center">
           <div className="absolute -left- top-1/2 transform -translate-y-1/2 w-50 h-96 md:w-[250px] md:h-[500px] bg-cyan-700 bg-opacity-30 rounded-r-full overflow-hidden"></div>
@@ -242,9 +241,9 @@ export default function Home() {
         </div>
       </nav>
       
-      {/* Main Content - Adjusted for larger left sidebar */}
+ 
       <div className="ml-0 md:ml-20 relative z-10">
-        {/* Hero Section - Reduced height and padding */}
+      
         <section className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">Hi, I'm <span className="text-cyan-300">Fana Asmelash</span></h1>
           <div className="text-2xl md:text-3xl mb-8 h-10"><span className="text-gray-400">{text}</span><span className="animate-pulse" style={{ animationDuration: '2s' }}>|</span></div>
@@ -255,29 +254,27 @@ export default function Home() {
           </div>
         </section>
         
-        {/* Creative Wave Divider */}
+  
         <div className="relative h-24 overflow-hidden">
           <svg className="absolute bottom-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#000000" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
         </div>
-        
-        {/* New Beautiful About Section - Reduced top padding */}
+ 
         <section id="about" ref={aboutRef} className="py-10 px-6 overflow-hidden">
           <div className="max-w-7xl mx-auto">
-            {/* Section Title with Animation */}
+  
             <div className={`text-center mb-16 transition-all duration-1000 ${aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <h2 className="text-5xl md:text-6xl font-bold mb-4">About <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">Me</span></h2>
               <div className="w-32 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full"></div>
             </div>
             
-            {/* Split Screen Design */}
+           
             <div className={`grid lg:grid-cols-2 gap-12 mb-20 transition-all duration-1000 delay-200 ${aboutVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              {/* Left Side - Personal Introduction */}
+      
               <div className="relative">
-                {/* Floating Card Effect */}
+      
                 <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-700"
                      style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
-                  
-                  {/* Decorative Elements */}
+ 
                   <div className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full opacity-20 blur-xl"></div>
                   <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full opacity-20 blur-xl"></div>
                   
@@ -306,12 +303,11 @@ export default function Home() {
                       </p>
                     </div>
                     
-                    {/* Achievement Badges - REMOVED AS REQUESTED */}
+             
                   </div>
                 </div>
               </div>
-              
-              {/* Right Side - Interactive Experience Cards */}
+      
               <div className="space-y-6" style={{ transform: `translateY(${-scrollY * 0.05}px)` }}>
                 {experienceCards.map((card, index) => (
                   <div
@@ -338,7 +334,7 @@ export default function Home() {
                         {card.description}
                       </p>
                       
-                      {/* Progress Bar */}
+            
                       <div className="mt-4 w-full bg-gray-800 rounded-full h-2">
                         <div 
                           className="bg-white h-2 rounded-full transition-all duration-1000"
@@ -354,13 +350,12 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Bottom Section - Skills Showcase - Redesigned */}
+            
             <div className={`mt-20 transition-all duration-1000 delay-500 ${aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <h3 className="text-3xl font-bold text-center mb-12">
                 My<span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">Skills</span>
               </h3>
-              
-              {/* Skills Grid - Rectangular Cards without Percentages */}
+   
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {skills.map((skill, index) => (
                   <div
@@ -371,7 +366,7 @@ export default function Home() {
                     onMouseEnter={() => setHoveredSkill(index)}
                     onMouseLeave={() => setHoveredSkill(null)}
                   >
-                    {/* Card Background Pattern */}
+          
                     <div className="absolute inset-0 opacity-5">
                       <div className="absolute inset-0" style={{
                         backgroundImage: `radial-gradient(circle at 10px 10px, rgba(255,255,255,0.2) 1px, transparent 0)`,
@@ -390,7 +385,7 @@ export default function Home() {
                         </div>
                       </div>
                       
-                      {/* Skill Tags */}
+          
                       <div className="mt-6 flex flex-wrap gap-2">
                         {skill.stats.split(', ').map((tech, techIndex) => (
                           <span key={techIndex} className="px-3 py-1 bg-gray-800 rounded-full text-xs text-gray-400 border border-gray-700 group-hover:border-gray-600 transition-colors">
@@ -399,14 +394,14 @@ export default function Home() {
                         ))}
                       </div>
                       
-                      {/* Hover Effect Overlay */}
+              
                       <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none`}></div>
                     </div>
                   </div>
                 ))}
               </div>
               
-              {/* Skills Summary */}
+      
               <div className="mt-12 text-center">
                 <div className="inline-flex items-center px-6 py-3 bg-gray-800 rounded-full">
                   <div className="flex -space-x-2">
@@ -423,7 +418,7 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Personal Quote Section */}
+        
             <div className={`mt-20 text-center transition-all duration-1000 delay-700 ${aboutVisible ? 'opacity-100' : 'opacity-0'}`}>
               <div className="relative inline-block">
                 <FaQuoteLeft className="absolute -top-8 -left-8 text-6xl text-cyan-500 opacity-20" />
@@ -438,10 +433,10 @@ export default function Home() {
           </div>
         </section>
         
-        {/* New Projects Section with Modern Design */}
+    
         <section id="projects" className="py-20 px-6 bg-gray-950">
           <div className="max-w-7xl mx-auto">
-            {/* Section Header */}
+      
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-4">
                 Featured <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Projects</span>
@@ -451,7 +446,7 @@ export default function Home() {
               </p>
             </div>
             
-            {/* Project Selector */}
+   
             <div className="flex justify-center mb-12">
               <div className="inline-flex rounded-lg bg-gray-900 p-1">
                 {projects.map((project, index) => (
@@ -471,9 +466,9 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Main Project Display */}
+        
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Project Image */}
+         
               <div className="relative order-2 lg:order-1">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <div className="aspect-w-16 aspect-h-9 h-80 md:h-96">
@@ -502,7 +497,7 @@ export default function Home() {
                     )}
                   </div>
                   
-                  {/* Floating Action Buttons */}
+        
                   <div className="absolute bottom-6 right-6 flex space-x-3">
                     <button className="w-12 h-12 bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-opacity-100 transition-all duration-300">
                       <FaGithub />
@@ -514,9 +509,9 @@ export default function Home() {
                 </div>
               </div>
               
-              {/* Project Details */}
+           
               <div className="order-1 lg:order-2">
-                {/* Project Title and Description */}
+        
                 <div className="mb-8">
                   <h3 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                     {projects[activeProject].name}
@@ -529,13 +524,13 @@ export default function Home() {
                   </p>
                 </div>
                 
-                {/* Project Impact */}
+           
                 <div className="mb-8 p-6 bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl">
                   <h4 className="text-lg font-semibold mb-2 text-cyan-400">Impact</h4>
                   <p className="text-gray-300">{projects[activeProject].impact}</p>
                 </div>
                 
-                {/* Project Tabs */}
+            
                 <div className="mb-6">
                   <div className="flex border-b border-gray-800">
                     <button
@@ -571,7 +566,7 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* Tab Content */}
+          
                 <div className="min-h-[200px]">
                   {projectTab === 'overview' && (
                     <div>
@@ -660,7 +655,7 @@ export default function Home() {
           </div>
         </section>
         
-        {/* Education Section - MOVED HERE */}
+
         <section id="education" className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold mb-12 text-center">
@@ -668,11 +663,11 @@ export default function Home() {
             </h2>
             
             <div className="space-y-12">
-              {/* MIT Entry */}
+        
               <div className="bg-gray-900 rounded-xl p-8 md:p-12">
                 <div className="flex flex-col md:flex-row items-center mb-8">
                   <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-r from-gray-700 to-gray-800 p-1 mb-6 md:mb-0 md:mr-8 flex items-center justify-center">
-                    {/* Using Icon for MIT */}
+             
                     <div className="text-3xl font-bold text-white">
                        MIT
                     </div>
@@ -688,7 +683,7 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* MIT Course List */}
+           
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                   {['Digital and Logic Design', 'ECA (Circuit Course)', 'C Programming Language', 'Microprocessors'].map((course, index) => (
                     <div key={index} className="flex items-center p-3 bg-gray-800 rounded-lg">
@@ -699,7 +694,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* AkiraChix Entry */}
               <div className="bg-gray-900 rounded-xl p-8 md:p-12">
                 <div className="flex flex-col md:flex-row items-center mb-8">
                   <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-r from-cyan-800 to-blue-900 p-1 mb-6 md:mb-0 md:mr-8">
@@ -730,7 +724,7 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* AkiraChix Course List */}
+        
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                   {['Backend Development', 'Frontend Web Development', 'Mobile Development', 'Data & ML'].map((course, index) => (
                     <div key={index} className="flex items-center p-3 bg-gray-800 rounded-lg">
@@ -750,14 +744,14 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Design Section */}
+    
         <section id="design" className="py-20 px-6">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold mb-12 text-center">
               Design <span className="text-purple-400">Work</span>
             </h2>
             
-            {/* Design Preview Grid */}
+  
             <div className="grid md:grid-cols-3 gap-6 mb-12">
               {designProjects.map((project) => (
                 <div 
@@ -803,7 +797,7 @@ export default function Home() {
               ))}
             </div>
             
-            {/* Design Detail Modal/Popup */}
+
             {selectedDesign && (
               <div 
                 className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80 backdrop-blur-sm"
@@ -832,7 +826,7 @@ export default function Home() {
                     </div>
                     
                     <div className="grid md:grid-cols-2 gap-8">
-                      {/* Design Image */}
+               
                       <div className="rounded-lg overflow-hidden">
                         <div className="relative h-80 md:h-96">
                           {imageError[`design-detail-${selectedDesign.id}`] ? (
@@ -916,21 +910,21 @@ export default function Home() {
               {/* Main Card Container */}
               <div className="absolute inset-0 bg-gray-900 rounded-3xl shadow-2xl border border-gray-800 overflow-hidden">
                 
-                {/* Active Photo with Key for Next.js Image Optimization */}
+       
                 <Image
                   key={photos[currentPhotoIndex].id} 
                   src={photos[currentPhotoIndex].src}
                   alt={photos[currentPhotoIndex].title}
                   fill
-                  className="object-contain w-full h-full transition-opacity duration-700" // Changed to object-contain to fix zooming
+                  className="object-contain w-full h-full transition-opacity duration-700" 
                   sizes="(max-width: 768px) 100vw, 50vw"
                   onError={() => setImageError(prev => ({ ...prev, [`photo-${photos[currentPhotoIndex].id}`]: true }))}
                 />
                 
-                {/* Gradient Overlay for Text Readability */}
+
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/70"></div>
                 
-                {/* Photo Info Overlay */}
+           
                 <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col items-start justify-end z-10">
                   <span className="text-xs font-bold text-pink-400 uppercase tracking-wider mb-1 animate-pulse">
                     {photos[currentPhotoIndex].category}
@@ -941,7 +935,7 @@ export default function Home() {
                 </div>
               </div>
               
-              {/* Navigation Indicators (Dots) */}
+      
               <div className="absolute -bottom-6 left-0 right-0 flex justify-center space-x-3 z-20">
                 {photos.map((_, idx) => (
                   <button
@@ -955,11 +949,10 @@ export default function Home() {
                 ))}
               </div>
             </div>
-          
-            {/* UPDATED Footer Link - POINTS TO SPECIFIC USER */}
+        
             <div className="mt-12 text-center">
               <a 
-                href="https://www.instagram.com/fanu_nti" // Specific Username Link
+                href="https://www.instagram.com/fanu_nti" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center space-x-2 text-gray-400 hover:text-pink-400 transition-colors border-b border-transparent hover:border-pink-400 pb-1"
@@ -971,9 +964,9 @@ export default function Home() {
           </div>
         </section>
         
-        {/* Creative Contact Section */}
+     
         <section id="contact" className="py-20 px-6 relative overflow-hidden">
-          {/* Animated Background Elements */}
+         
           <div className="absolute inset-0 z-0">
             <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
             <div className="absolute bottom-20 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
@@ -988,10 +981,9 @@ export default function Home() {
               Ready to bring your ideas to life? Let's collaborate and create something amazing together.
             </p>
             
-            {/* Interactive Contact Cards */}
-            {/* Changed grid to accommodate 4 items */}
+ 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-              {/* Email Card */}
+  
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
                 <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
@@ -1010,7 +1002,7 @@ export default function Home() {
                 </div>
               </div>
               
-              {/* LinkedIn Card */}
+    
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
                 <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
@@ -1031,7 +1023,7 @@ export default function Home() {
                 </div>
               </div>
               
-              {/* GitHub Card */}
+         
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
                 <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
@@ -1052,7 +1044,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Behance Card - NEW */}
+       
               <div className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
                 <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
@@ -1074,7 +1066,7 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Interactive Message Form */}
+          
             <div className="max-w-2xl mx-auto">
               <div className="bg-gray-900 bg-opacity-50 backdrop-blur-lg rounded-2xl p-8 border border-gray-800">
                 <h3 className="text-2xl font-bold mb-6 text-center">Send me a message</h3>
@@ -1167,7 +1159,7 @@ export default function Home() {
           </div>
         </section>
         
-        {/* Footer */}
+   
         <footer className="py-8 px-6 text-center text-gray-600 border-t border-gray-900">
           <p>&copy; {new Date().getFullYear()} Fana Asmelash. All rights reserved.</p>
         </footer>

@@ -419,8 +419,12 @@ export default function Home() {
                   <div className="ring-rot absolute inset-0 rounded-full" style={{ background: 'conic-gradient(#ffeaa8 0deg, #ff9a3d 70deg, #4a2006 160deg, #4a2006 200deg, #ff9a3d 290deg, #ffeaa8 360deg)' }} />
                 </div>
                 {values.map(([t, d], i) => (
-                  <div key={t} className={`absolute w-[40%] min-h-[7.25rem] rounded-xl border border-white/30 bg-white/5 backdrop-blur-md px-3.5 py-3 text-left ${i < 2 ? 'left-0' : 'right-0'}`}
-                    style={{ top: `${[60, 230, 110, 280][i] / 6}%` }}>
+                  <div key={t} className={`float-tag absolute w-[40%] min-h-[7.25rem] rounded-xl border border-white/30 bg-white/5 backdrop-blur-md px-3.5 py-3 text-left ${i < 2 ? 'left-0' : 'right-0'}`}
+                    style={{
+                      top: `${[60, 230, 110, 280][i] / 6}%`,
+                      animationDelay: `${i * -1.1}s`,
+                      animationDuration: `${4 + i * 0.6}s`,
+                    }}>
                     <h4 className="font-display text-sm font-semibold text-sun leading-tight whitespace-nowrap">{t}</h4>
                     <p className="mt-2 text-xs text-muted leading-relaxed">{d}</p>
                   </div>

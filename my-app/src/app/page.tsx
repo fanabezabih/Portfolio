@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { FaGithub, FaLinkedin, FaEnvelope, FaBehance, FaInstagram, FaDownload } from 'react-icons/fa';
 
-// Put your CV in the /public folder with this exact name
+
 const CV_URL = '/Fana-Asmelash-CV.pdf';
 
 const roles = ['Software Engineer', 'Full Stack Developer', 'UI/UX Designer', 'Mobile Developer'];
@@ -272,8 +272,8 @@ export default function Home() {
   const [loop, setLoop] = useState(0);
   const projRef = useRef<HTMLDivElement>(null);
   const [prog, setProg] = useState(0);
-  const [side, setSide] = useState(false); // nav moves to the left after the hero
-  const [active, setActive] = useState(''); // id of the section currently in view
+  const [side, setSide] = useState(false);
+  const [active, setActive] = useState('');
 
   useEffect(() => {
     const onScroll = () => {

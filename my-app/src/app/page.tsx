@@ -1,1169 +1,543 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaMobileAlt, FaDatabase, FaPalette, FaProjectDiagram, FaRobot, FaGamepad, FaArrowRight, FaCheckCircle, FaEye, FaQuoteLeft, FaQuoteRight, FaLightbulb, FaHeart, FaRocket, FaTrophy, FaGraduationCap, FaUsers, FaLaptopCode, FaStar, FaAward, FaBrain, FaCogs, FaMagic, FaFire, FaExternalLinkAlt, FaCodeBranch, FaLayerGroup, FaMobile, FaWaveSquare, FaBars, FaTimes, FaBehance, FaCamera } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaBehance, FaInstagram, FaDownload } from 'react-icons/fa';
 
-import ParticleNetwork from './components/ParticleNetwork';
+// Put your CV in the /public folder with this exact name
+const CV_URL = '/Fana-Asmelash-CV.pdf';
+
+const roles = ['Software Engineer', 'Full Stack Developer', 'UI/UX Designer', 'Mobile Developer'];
+
+const nav = [['About', '#about'], ['Skills', '#skills'], ['Projects', '#projects'], ['Design', '#design'], ['Education', '#education'], ['Contact', '#contact']];
+
+const projects = [
+  {
+    name: 'IddirNet', short: 'Digitizing Ethiopian community support systems',
+    full: 'A comprehensive platform digitizing Ethiopian Iddir communities with secure digital payments and fair resource management.',
+    impact: 'Helping community members with secure financial management',
+    tags: ['Web Development', 'System Architecture', 'UI/UX Design'],
+    tech: ['React', 'Node.js', 'MongoDB', 'LocationIQ API'],
+    image: '/images/phones.png', live: 'https://play.google.com/store/apps/details?id=com.iddirnet.iddirnet&pcampaignid=web_share', bg: 'bg-[#6b2d08]',
+    links: { Research: 'https://docs.google.com/document/d/1jJE2k4O-OxqpKgJdT_ZRPFLkquj1qkjuHtBVS743ehw/edit?tab=t.pg149zfd6mjv', PRD: 'https://docs.google.com/document/d/1pkJKPZGg1qWEkooqQIQneOj7-L8N44GgH6TaoJiF01g/edit?tab=t.0', Architecture: 'https://lucid.app/lucidchart/5b591621-374c-4fe3-8fe9-f8877f7ce3ba/edit?invitationId=inv_5efca279-a249-403a-819a-90fb701e0782&page=0_0#', Design: 'https://www.figma.com/design/kijpne0VzuMYGqYBwrlJin/IddirNet?node-id=28-2&t=KTx5HRHDbjYs77QP-1', Schema: 'https://docs.google.com/document/d/1xyHtdBWPOs8s2bPTpdCc5FZ2CyJ2FYp98epjawF02FE/edit?tab=t.0', Website: 'https://iddirnet.vercel.app/' },
+  },
+  {
+    name: 'SafiGreens', short: 'Connecting local vendors with customers',
+    full: 'An end-to-end mobile app connecting local vegetable vendors with customers to increase sales and improve food accessibility.',
+    impact: 'Increased vendor sales and expanded customer reach.',
+    tags: ['Mobile Development', 'API Development', 'Dashboard'],
+    tech: ['Kotlin', 'React', 'PostgreSQL', 'Google Maps API'],
+    image: '/images/safi.png', live: 'https://safigreeens.netlify.app/', bg: 'bg-[#260e03]',
+    links: { Report: 'https://docs.google.com/document/d/1jLrwFGQpjFNA2cP-ozGEM6GJqe01_O6QaKO8UjF4DJc/edit?tab=t.0', Design: 'https://www.figma.com/design/neV9t33HSy5WE2IHlVgwNH/Big_Minds-Design?node-id=424-128&p=f&t=g543HeO23WnsQAPW-0', Website: 'https://safigreeens.netlify.app/', Architecture: 'https://lucid.app/lucidchart/7263de22-187a-420f-a047-80f08c20bb45/edit?page=0_0#', Schema: 'https://docs.google.com/document/d/1nBUwGl-M9WPPRQFyOyziClrIzs7n2JW9W98e9jOl9_Y/edit?usp=sharing', API: 'https://safigreens-ae7369bd05fc.herokuapp.com/api/', Dashboard: 'https://safiigreens-admins.vercel.app/' },
+  },
+];
+
+const designs = [
+  { name: 'The Road Not Taken', details: "This design combines modern typography with artistic illustration to create a visually striking book cover that captures the essence of the literary work.", cat: 'Book Design', image: '/images/bookcover.jpg', link: 'https://www.behance.net/gallery/237913805/Book-cover', tags: ['Book Cover Design', 'Typography', 'Illustration'],
+    desc: 'Designed a book cover by blending illustration, typography, and branding, presented in professional mockup formats.' },
+  { name: "Depy's Crisps", details: "Created vibrant, child-friendly packaging designs that stand out on shelves while maintaining brand consistency across all three flavor variants.", cat: 'Packaging Design', image: '/images/snack.png', link: 'https://www.behance.net/gallery/237914507/Depsys-Snack', tags: ['Packaging Design', 'Logo Design', 'Brand Identity'],
+    desc: 'Designed a logo, landing page, and promotional adverts to showcase a new product line, with packaging for three flavors tailored for children.' },
+  { name: 'Kilimanjaro Energies', details: "Developed a comprehensive brand identity that reflects the company's values and energy sector focus, including a user-friendly mobile app for customer engagement.", cat: 'Branding & Product Design', image: '/images/jerrycan.png', link: 'https://www.behance.net/gallery/233940763/Kilimanjaro', tags: ['Brand Identity', 'Logo Design', 'Mobile App Design'],
+    desc: 'Created a brand identity by crafting a distinctive logo and cohesive branded materials, along with a loyalty program mobile app design.' },
+];
+
+const skills = [
+  ['Frontend Development', 'React, Next.js, Typescript'],
+  ['Mobile Development', 'Kotlin'],
+  ['Database Design', 'SQL, NoSQL, sqlite'],
+  ['UI/UX Design', 'Figma, Adobe Photoshop and Illustrator'],
+  ['System Architecture', 'Lucid charts'],
+  ['AI Integration', 'TensorFlow, PyTorch'],
+];
+
+const tags = ['Web', 'Mobile', 'Data', 'Design', 'Systems', 'AI'];
+
+const values = [
+  ['Passion driven', 'My journey began with a love for gaming, sparking curiosity about how technology creates immersive experiences.'],
+  ['Creative problem solver', 'I approach challenges with innovative thinking, always seeking elegant solutions to complex problems.'],
+  ['Full stack', 'From frontend aesthetics to backend architecture, I build complete, robust applications.'],
+  ['Design focused', 'I believe great code deserves great design, creating experiences that users love.'],
+];
+
+const study = [
+  { school: 'MIT', degree: 'Computer Science and Engineering', when: 'September 2023 – January 2025',
+    desc: 'Comprehensive curriculum covering digital logic design, circuit analysis, and programming. Developed strong foundational skills in C programming and electronic principles.',
+    items: ['Digital and Logic Design', 'ECA (Circuit Course)', 'C Programming Language', 'Microprocessors'] },
+  { school: 'AkiraChix', degree: 'Diploma in Information Technology', when: 'February 2025 – November 2025',
+    desc: 'CodeHive program specializing in Backend Development, Frontend Web Development, Mobile Development, Data and Machine Learning, User Experience (UX) Research, UI/UX Design, Product Management, and Quality Assurance.',
+    items: ['Backend Development', 'Frontend Web Development', 'Mobile Development', 'Data & ML', 'UX Research', 'UI/UX Design', 'Product Management', 'Quality Assurance'] },
+];
+
+const contacts = [
+  { label: 'Email', text: 'fanabezabih@gmail.com', href: 'mailto:fanabezabih@gmail.com', Icon: FaEnvelope },
+  { label: 'LinkedIn', text: 'Connect with me', href: 'https://www.linkedin.com/in/fana-bezabih-027713326', Icon: FaLinkedin },
+  { label: 'GitHub', text: 'Check my work', href: 'https://github.com/fanabezabih', Icon: FaGithub },
+  { label: 'Behance', text: 'View design', href: 'https://www.behance.net/fanabezabih', Icon: FaBehance },
+  { label: 'Instagram', text: 'See more photos', href: 'https://www.instagram.com/fanu_nti', Icon: FaInstagram },
+];
+
+const H2 = ({ children }: { children: React.ReactNode }) => (
+  <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] max-w-3xl">{children}</h2>
+);
+
+function ProjectPanel({ p }: { p: (typeof projects)[0] }) {
+  const [tab, setTab] = useState<'overview' | 'tech' | 'links'>('overview');
+  return (
+    <div className="mx-auto h-full max-w-6xl overflow-y-auto rounded-[2rem] border border-white/15 bg-black/40 backdrop-blur-xl p-5 md:p-10 grid lg:grid-cols-[1.1fr_1fr] gap-8 items-center">
+      <div className={`${p.bg} relative h-56 lg:h-full max-h-[34rem] overflow-hidden rounded-2xl`}>
+        <Image src={p.image} alt={`${p.name} preview`} fill className="object-contain p-6" sizes="(max-width:1024px) 100vw, 55vw" />
+      </div>
+      <div>
+        <h3 className="font-display text-4xl font-bold">{p.name}</h3>
+        <p className="mt-2 text-xl">{p.short}</p>
+        <p className="mt-3 text-muted">{p.full}</p>
+        <p className="mt-4 bg-sun/30 border-l-4 border-sun px-4 py-3"><strong>Impact:</strong> {p.impact}</p>
+        <div className="mt-6 flex gap-6 border-b border-line">
+          {([['overview', 'Overview'], ['tech', 'Technology'], ['links', 'Resources']] as const).map(([k, l]) => (
+            <button key={k} suppressHydrationWarning onClick={() => setTab(k)} className={`pb-2 font-medium -mb-px border-b-2 ${tab === k ? 'border-cobalt text-cobalt' : 'border-transparent text-muted hover:text-ink'}`}>{l}</button>
+          ))}
+        </div>
+        <div className="mt-4 min-h-[170px]">
+          {tab === 'overview' && (
+            <>
+              <ul className="flex flex-wrap gap-2">{p.tags.map(t => <li key={t} className="border border-ink px-3 py-1 text-sm">{t}</li>)}</ul>
+              <a href={p.live} target="_blank" rel="noopener noreferrer" className="mt-5 inline-block bg-cobalt text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-paper transition-colors">View live project</a>
+            </>
+          )}
+          {tab === 'tech' && <ul className="grid grid-cols-2 gap-2">{p.tech.map(t => <li key={t} className="bg-white/5 border border-line px-4 py-3">{t}</li>)}</ul>}
+          {tab === 'links' && (
+            <ul className="grid grid-cols-2 gap-x-6 border-t border-line">
+              {Object.entries(p.links).map(([k, v]) => (
+                <li key={k} className="border-b border-line"><a href={v} target="_blank" rel="noopener noreferrer" className="flex justify-between py-2 hover:text-cobalt"><span>{k}</span><span aria-hidden>↗</span></a></li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ContactFooter() {
+  const [msg, setMsg] = useState('');
+
+  const send = (e: React.FormEvent) => {
+    e.preventDefault();
+    window.location.href = `mailto:fanabezabih@gmail.com?subject=${encodeURIComponent('Hello Fana')}&body=${encodeURIComponent(msg)}`;
+  };
+
+  return (
+    <footer id="contact" className="relative z-10 pt-10 scroll-mt-20">
+      {/* Big gradient card */}
+      <div
+        className="relative w-full overflow-hidden rounded-t-[2rem] min-h-[26rem] md:min-h-[30rem] px-6 py-6 md:px-12 md:py-8 flex flex-col justify-between text-[#1a0a02]"
+        style={{
+          background:
+            'radial-gradient(110% 80% at 0% 100%, #4a2006 0%, rgba(74,32,6,0) 60%), radial-gradient(80% 90% at 100% 0%, #ffeaa8 0%, rgba(255,234,168,0) 65%), linear-gradient(135deg, #ff9a3d 0%, #ffb85c 100%)',
+        }}
+      >
+        {/* top label */}
+        <p className="flex items-center gap-2 font-mono text-[10px] md:text-xs uppercase tracking-wide">
+          <span aria-hidden className="h-2 w-2 rounded-full bg-[#1a0a02]" />
+          The connections we build make us who we are
+        </p>
+
+        {/* headline */}
+        <h2 className="font-display font-extrabold uppercase text-center leading-[0.9] tracking-tighter text-[clamp(2.75rem,9vw,7.5rem)] my-6">
+          Let&apos;s <br className="sm:hidden" />connect
+        </h2>
+
+        {/* social icons */}
+        <ul className="flex justify-center gap-6 -mt-2 mb-6">
+          {contacts.map(({ label, href, Icon }) => (
+            <li key={label}>
+              <a
+                href={href}
+                target={href.startsWith('http') ? '_blank' : undefined}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="text-2xl text-[#1a0a02] hover:text-white transition-colors"
+              >
+                <Icon aria-hidden />
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* email form */}
+        <form onSubmit={send} className="mx-auto flex w-full max-w-md items-center gap-3">
+          <input
+            suppressHydrationWarning
+            value={msg}
+            onChange={(e) => setMsg(e.target.value)}
+            placeholder="SAY HELLO..."
+            aria-label="Your message"
+            className="flex-1 rounded-full bg-white/35 backdrop-blur px-5 py-3 font-mono text-xs uppercase placeholder:text-[#1a0a02]/60 outline-none focus:bg-white/50"
+          />
+          <button suppressHydrationWarning className="rounded-full bg-[#1a0a02] px-6 py-3 font-mono text-xs uppercase text-white hover:bg-white hover:text-[#1a0a02] transition-colors">
+            Send
+          </button>
+        </form>
+
+        {/* footer bar inside card */}
+        <div className="mt-6 pt-5 border-t border-[#1a0a02]/25 flex flex-col md:flex-row gap-4 md:justify-between items-center">
+          <a href="#top" className="font-display text-3xl font-bold flex items-center gap-2 justify-center md:justify-start">
+            fana<span aria-hidden className="h-4 w-4 rounded-full bg-[#1a0a02]" />
+          </a>
+          <p className="text-center md:text-right text-xs text-[#1a0a02]/80">
+            Building software with thoughtful design.<br />
+            &copy; {new Date().getFullYear()} Fana Asmelash. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function CursorEffects() {
+  const glow = useRef<HTMLDivElement>(null);
+  const ring = useRef<HTMLDivElement>(null);
+  const dot = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // desktop / mouse only
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    document.documentElement.classList.add('custom-cursor');
+
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    let gx = mx, gy = my, rx = mx, ry = my, scale = 1, target = 1;
+    let raf = 0, shown = false;
+
+    const onMove = (e: MouseEvent) => {
+      mx = e.clientX; my = e.clientY;
+      target = (e.target as HTMLElement | null)?.closest('a,button,input,textarea,[role="button"]') ? 2.2 : 1;
+      if (!shown) {
+        shown = true;
+        [glow, ring, dot].forEach((r) => r.current && (r.current.style.opacity = '1'));
+      }
+    };
+    const onLeave = () => { shown = false; [glow, ring, dot].forEach((r) => r.current && (r.current.style.opacity = '0')); };
+
+    const tick = () => {
+      gx += (mx - gx) * 0.07; gy += (my - gy) * 0.07;   // slow, floaty glow
+      rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;   // ring follows a bit behind
+      scale += (target - scale) * 0.15;
+      if (glow.current) glow.current.style.transform = `translate3d(${gx - 300}px, ${gy - 300}px, 0)`;
+      if (ring.current) ring.current.style.transform = `translate3d(${rx - 20}px, ${ry - 20}px, 0) scale(${scale})`;
+      if (dot.current) dot.current.style.transform = `translate3d(${mx - 5}px, ${my - 5}px, 0)`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+    document.addEventListener('mouseleave', onLeave);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseleave', onLeave);
+      document.documentElement.classList.remove('custom-cursor');
+    };
+  }, []);
+
+  return (
+    <>
+      <style>{`.custom-cursor, .custom-cursor * { cursor: none !important; }`}</style>
+      {/* soft light that trails the cursor */}
+      <div
+        ref={glow}
+        aria-hidden
+        className="pointer-events-none fixed left-0 top-0 z-20 h-[600px] w-[600px] rounded-full opacity-0 transition-opacity duration-500 will-change-transform"
+        style={{ background: 'radial-gradient(circle, rgba(255,154,61,.30) 0%, rgba(255,154,61,.12) 35%, rgba(255,154,61,0) 65%)', mixBlendMode: 'screen' }}
+      />
+      {/* trailing ring */}
+      <div
+        ref={ring}
+        aria-hidden
+        className="pointer-events-none fixed left-0 top-0 z-[100] h-10 w-10 rounded-full border-[1.5px] border-white/70 opacity-0 transition-opacity duration-300 will-change-transform"
+        style={{ boxShadow: '0 0 12px rgba(255,154,61,.5)' }}
+      />
+      {/* dot */}
+      <div
+        ref={dot}
+        aria-hidden
+        className="pointer-events-none fixed left-0 top-0 z-[100] h-2.5 w-2.5 rounded-full border-2 border-white bg-[#ff9a3d] opacity-0 transition-opacity duration-300 will-change-transform"
+      />
+    </>
+  );
+}
 
 export default function Home() {
   const [text, setText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [loopNum, setLoopNum] = useState(0);
-  const [typingSpeed, setTypingSpeed] = useState(200);
-  const [activeCard, setActiveCard] = useState<number | null>(null);
-  const [scrollY, setScrollY] = useState(0);
-  const [aboutVisible, setAboutVisible] = useState(false);
-  const [hoveredExperience, setHoveredExperience] = useState<number | null>(null);
-  const [hoveredSkill, setHoveredSkill] = useState<number | null>(null);
-  const [activeProject, setActiveProject] = useState(0);
-  const [activeDesign, setActiveDesign] = useState(0);
-  const [imageError, setImageError] = useState<{ [key: string]: boolean }>({});
-  const [selectedDesign, setSelectedDesign] = useState<typeof designProjects[0] | null>(null);
-  const [projectTab, setProjectTab] = useState('overview');
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const aboutRef = useRef<HTMLDivElement>(null);
-  
- 
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const [loop, setLoop] = useState(0);
+  const projRef = useRef<HTMLDivElement>(null);
+  const [prog, setProg] = useState(0);
+  const [side, setSide] = useState(false); // nav moves to the left after the hero
+  const [active, setActive] = useState(''); // id of the section currently in view
 
-  const roles = ['Software Engineer', 'Full Stack Developer', 'UI/UX Designer', 'Mobile Developer'];
-  
   useEffect(() => {
-    const handleTyping = () => {
-      const i = loopNum % roles.length;
-      const fullText = roles[i];
-      
-      setText(isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1));
-      
-      setTypingSpeed(isDeleting ? 50 : 200);
-      
-      if (!isDeleting && text === fullText) {
-        setTimeout(() => setIsDeleting(true), 2000);
-      } else if (isDeleting && text === '') {
-        setIsDeleting(false);
-        setLoopNum(loopNum + 1);
+    const onScroll = () => {
+      setSide(window.scrollY > window.innerHeight - 120);
+      let cur = '';
+      for (const [, h] of nav) {
+        const sec = document.getElementById(h.slice(1));
+        if (sec && sec.getBoundingClientRect().top <= window.innerHeight * 0.4) cur = h.slice(1);
       }
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = 'contact';
+      setActive(cur);
+      const el = projRef.current;
+      if (!el) return;
+      const total = el.offsetHeight - window.innerHeight;
+      setProg(Math.min(1, Math.max(0, -el.getBoundingClientRect().top / total)));
     };
-    
-    const timer = setTimeout(handleTyping, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [text, isDeleting, loopNum, typingSpeed]);
-  
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
   }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setAboutVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
+    const full = roles[loop % roles.length];
+    const t = setTimeout(() => {
+      if (!deleting && text === full) return setDeleting(true);
+      if (deleting && text === '') { setDeleting(false); return setLoop(loop + 1); }
+      setText(deleting ? full.slice(0, text.length - 1) : full.slice(0, text.length + 1));
+    }, !deleting && text === full ? 1800 : deleting ? 40 : 90);
+    return () => clearTimeout(t);
+  }, [text, deleting, loop]);
 
-    if (aboutRef.current) {
-      observer.observe(aboutRef.current);
-    }
-
-    return () => {
-      if (aboutRef.current) {
-        observer.unobserve(aboutRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPhotoIndex((prevIndex) => (prevIndex + 1) % photos.length);
-    }, 3000); 
-
-    return () => clearInterval(interval);
-  }, []);
-  
-  const projects = [
-    {
-      id: 0,
-      name: 'IddirNet',
-      shortDescription: 'Digitizing Ethiopian community support systems',
-      fullDescription: 'A comprehensive platform digitizing Ethiopian Iddir communities with secure digital payments and fair resource management.',
-      tags: ['Web Development', 'System Architecture', 'UI/UX Design'],
-      color: 'from-cyan-700 to-blue-900',
-      image: '/images/phones.png',
-      icon: <FaUsers />,
-      link: 'https://play.google.com/store/apps/details?id=com.iddirnet.iddirnet&pcampaignid=web_share',
-      links: { research: 'https://docs.google.com/document/d/1jJE2k4O-OxqpKgJdT_ZRPFLkquj1qkjuHtBVS743ehw/edit?tab=t.pg149zfd6mjv', prd: 'https://docs.google.com/document/d/1pkJKPZGg1qWEkooqQIQneOj7-L8N44GgH6TaoJiF01g/edit?tab=t.0', architecture: 'https://lucid.app/lucidchart/5b591621-374c-4fe3-8fe9-f8877f7ce3ba/edit?invitationId=inv_5efca279-a249-403a-819a-90fb701e0782&page=0_0#', design: 'https://www.figma.com/design/kijpne0VzuMYGqYBwrlJin/IddirNet?node-id=28-2&t=KTx5HRHDbjYs77QP-1', schema: 'https://docs.google.com/document/d/1xyHtdBWPOs8s2bPTpdCc5FZ2CyJ2FYp98epjawF02FE/edit?tab=t.0', website: 'https://iddirnet.vercel.app/' },
-      tech: ['React', 'Node.js', 'MongoDB', ' LocationIQ API'],
-      impact: 'Helping community members with secure financial management'
-    },
-    {
-      id: 1,
-      name: 'SafiGreens',
-      shortDescription: 'Connecting local vendors with customers',
-      link: 'https://safigreeens.netlify.app/',
-      fullDescription: 'An end-to-end mobile app connecting local vegetable vendors with customers to increase sales and improve food accessibility.',
-      tags: ['Mobile Development', 'API Development', 'Dashboard'],
-      color: 'from-blue-800 to-indigo-900',
-      image: '/images/safi.png', 
-      icon: <FaMobile />,
-      links: { report: 'https://docs.google.com/document/d/1jLrwFGQpjFNA2cP-ozGEM6GJqe01_O6QaKO8UjF4DJc/edit?tab=t.0', design: 'https://www.figma.com/design/neV9t33HSy5WE2IHlVgwNH/Big_Minds-Design?node-id=424-128&p=f&t=g543HeO23WnsQAPW-0', website: 'https://safigreeens.netlify.app/', architecture: 'https://lucid.app/lucidchart/7263de22-187a-420f-a047-80f08c20bb45/edit?page=0_0#', schema: 'https://docs.google.com/document/d/1nBUwGl-M9WPPRQFyOyziClrIzs7n2JW9W98e9jOl9_Y/edit?usp=sharing', api: 'https://safigreens-ae7369bd05fc.herokuapp.com/api/', dashboard: 'https://safiigreens-admins.vercel.app/' },
-      tech: ['Kotlin', 'React', 'PostgreSQL', 'Google Maps API'],
-      impact: 'Increased vendor sales and expanded customer reach.'
-    }
-  ];
-  const designProjects = [
-    { 
-      id: 0, 
-      name: 'The Road Not Taken', 
-      description: 'Designed a book cover by blending illustration, typography, and branding, presented in professional mockup formats.', 
-      tags: ['Book Cover Design', 'Typography', 'Illustration'], 
-      color: 'from-purple-700 to-pink-900', 
-      image: '/images/bookcover.jpg', 
-      category: 'Book Design', 
-      details: 'This design combines modern typography with artistic illustration to create a visually striking book cover that captures essence of literary work.',
-      link: 'https://www.behance.net/gallery/237913805/Book-cover' 
-    },
-    { 
-      id: 1, 
-      name: 'Depy\'s Crisps', 
-      description: 'Designed a logo, landing page, and promotional adverts to showcase new product line, with packaging for three flavors tailored for children.', 
-      tags: ['Packaging Design', 'Logo Design', 'Brand Identity'], 
-      color: 'from-yellow-700 to-orange-900', 
-      image: '/images/snack.png', 
-      category: 'Packaging Design', 
-      details: 'Created vibrant, child-friendly packaging designs that stand out on shelves while maintaining brand consistency across all three flavor variants.',
-      link: 'https://www.behance.net/gallery/237914507/Depsys-Snack' 
-    },
-    { 
-      id: 2, 
-      name: 'Kilimanjaro Energies', 
-      description: 'Created a brand identity by crafting a distinctive logo and cohesive branded materials, along with a loyalty program mobile app design.', 
-      tags: ['Brand Identity', 'Logo Design', 'Mobile App Design'], 
-      color: 'from-green-700 to-teal-900', 
-      image: '/images/jerrycan.png', 
-      category: 'Branding & Product Design', 
-      details: 'Developed a comprehensive brand identity that reflects company\'s values and energy sector focus, including a user-friendly mobile app for customer engagement.',
-      link: 'https://www.behance.net/gallery/233940763/Kilimanjaro' 
-    }
-  ];
-  
-
-  const photos = [
-    { id: 1, src: '/images/arts.jpg', category: 'Portrait', title: 'Urban Canvas' },
-    { id: 2, src: '/images/monments.jpg', category: 'Memories', title: 'Chasing Light' },
-    { id: 3, src: '/images/plants.jpg', category: 'Nature', title: 'Verdant Life' },
-  ];
-
-  const skills = [
-    { name: 'Frontend Development', icon: <FaCode />, color: 'from-blue-500 to-cyan-600', stats: 'React, Next.js, Typescript' },
-    { name: 'Mobile Development', icon: <FaMobileAlt />, color: 'from-green-500 to-teal-600', stats: 'Kotlin' },
-    { name: 'Database Design', icon: <FaDatabase />, color: 'from-purple-500 to-pink-600', stats: 'SQL, NoSQL, sqlite' },
-    { name: 'UI/UX Design', icon: <FaPalette />, color: 'from-orange-500 to-red-600', stats: 'Figma, Adobe Photoshop and Illustrator.' },
-    { name: 'System Architecture', icon: <FaProjectDiagram />, color: 'from-indigo-500 to-purple-600', stats: 'Lucid charts' },
-    { name: 'AI Integration', icon: <FaRobot />, color: 'from-yellow-500 to-orange-600', stats: 'TensorFlow, PyTorch' }
-  ];
-  const experienceCards = [
-    { icon: <FaFire />, title: 'Passion Driven', description: 'My journey began with a love for gaming, sparking curiosity about how technology creates immersive experiences.', color: 'from-orange-500 to-red-600' },
-    { icon: <FaBrain />, title: 'Creative Problem Solver', description: 'I approach challenges with innovative thinking, always seeking elegant solutions to complex problems.', color: 'from-purple-500 to-pink-600' },
-    { icon: <FaCogs />, title: 'Full Stack Expert', description: 'From frontend aesthetics to backend architecture, I build complete, robust applications.', color: 'from-blue-500 to-cyan-600' },
-    { icon: <FaMagic />, title: 'Design Focused', description: 'I believe great code deserves great design, creating experiences that users love.', color: 'from-green-500 to-teal-600' }
-  ];
-  const navItems = [
-    { name: 'About', href: '#about', angle: -60 },
-    { name: 'Skills', href: '#skills', angle: -30 },
-    { name: 'Projects', href: '#projects', angle: 0 },
-    { name: 'Education', href: '#education', angle: 30 },
-    { name: 'Contacts', href: '#contact', angle: 60 }
-  ];
-  
-
-  const handleNavClick = () => {
-    setMobileMenuOpen(false);
-  };
-  
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden">
-
-      <ParticleNetwork />
-      
-   
-      <button
-        className="fixed top-6 left-6 z-50 md:hidden bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-full p-3 text-white"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-      >   
-        {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-      </button>
-      
-
-      <div className={`fixed top-0 left-0 h-full w-64 bg-gray-900 bg-opacity-95 backdrop-blur-md z-40 transform transition-transform duration-300 md:hidden ${
-        mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
-        <div className="flex flex-col p-6 pt-20">
-          {navItems.map((item, index) => (
-            <a
-              key={index}
-              href={item.href}
-              className="flex items-center py-4 text-lg font-medium hover:text-cyan-400 transition-colors"
-              onClick={handleNavClick}
-            >
-              {item.name}
-            </a>
-          ))}
-        </div>
+    <div className="relative min-h-screen bg-[#180a02]">
+      <CursorEffects />
+      <div aria-hidden className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        {[
+          ['8%', '-left-[20vw]', 'bg-gradient-to-b from-black to-[#3a1604]', 'w-[70vw]'],
+          ['17%', '-right-[28vw]', 'bg-gradient-to-br from-[#4a2006] to-[#5c2808]', 'w-[65vw]'],
+          ['31%', '-left-[32vw]', 'bg-[#2a0e02]', 'w-[70vw]'],
+          ['44%', '-right-[22vw]', 'bg-gradient-to-br from-[#4a2006] to-[#5c2808]', 'w-[60vw]'],
+          ['57%', '-left-[26vw]', 'bg-gradient-to-br from-[#4a2006] to-[#5c2808]', 'w-[65vw]'],
+          ['70%', '-right-[30vw]', 'bg-gradient-to-b from-black to-[#3a1604]', 'w-[70vw]'],
+          ['82%', '-left-[22vw]', 'bg-gradient-to-br from-[#4a2006] to-[#5c2808]', 'w-[60vw]'],
+          ['93%', '-right-[12vw]', 'bg-[#3a1604]', 'w-[50vw]'],
+        ].map(([top, side, bg, w], i) => (
+          <div key={i} className={`absolute aspect-square rounded-full ${side} ${bg} ${w}`} style={{ top }} />
+        ))}
       </div>
- 
-      <nav className="fixed -left-40 top-0 h-full w-48 md:w-64 z-20 hidden md:flex flex-col items-center py-8">
-        <div className="relative h-full flex items-center">
-          <div className="absolute -left- top-1/2 transform -translate-y-1/2 w-50 h-96 md:w-[250px] md:h-[500px] bg-cyan-700 bg-opacity-30 rounded-r-full overflow-hidden"></div>
-          <div className="relative w-full h-full flex items-center justify-center">
-            {navItems.map((item, index) => {
-              const radius = 180;
-              const angleRad = (item.angle * Math.PI) / 180;
-              const x = radius * Math.cos(angleRad);
-              const y = radius * Math.sin(angleRad);
-              return (
-                <a key={index} href={item.href} className="absolute group z-10" style={{ transform: `translate(${x}px, ${y}px)`, left: '50%', top: '50%', marginLeft: '-28px', marginTop: '-28px' }}>
-                  <div className="w-14 h-14 md:w-16 md:h-16 bg-blue-900 rounded-full flex items-center justify-center text-white text-xs md:text-sm font-medium hover:bg-blue-800 transition-all duration-300 transform hover:scale-110 shadow-lg">{item.name}</div>
+      <header>
+        <nav
+          aria-label="Main"
+          className={`fixed z-30 max-w-[calc(100%-1.5rem)] overflow-x-auto border border-white/10 bg-[#1a0a02]/90 shadow-[0_10px_30px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-all duration-500 ease-in-out
+            top-4 left-1/2 -translate-x-1/2
+            ${side
+              ? 'rounded-full px-2 py-2 lg:top-1/2 lg:left-4 lg:translate-x-0 lg:-translate-y-1/2 lg:rounded-[2rem] lg:overflow-visible lg:px-2 lg:py-3'
+              : 'rounded-full px-2 py-2'}`}
+        >
+          <ul className={`flex items-center gap-0.5 sm:gap-1 ${side ? 'lg:flex-col lg:items-stretch lg:gap-1' : ''}`}>
+            {nav.map(([n, h]) => (
+              <li key={h}>
+                <a
+                  href={h}
+                  aria-current={active === h.slice(1) ? 'true' : undefined}
+                  className={`block whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-colors sm:px-5 sm:text-sm ${side ? 'lg:px-4 lg:text-center' : ''} ${active === h.slice(1) ? 'bg-cobalt text-white' : 'hover:bg-white/10 hover:text-cobalt'}`}
+                >
+                  {n}
                 </a>
-              );
-            })}
-          </div>
-        </div>
-      </nav>
-      
- 
-      <div className="ml-0 md:ml-20 relative z-10">
-      
-        <section className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">Hi, I'm <span className="text-cyan-300">Fana Asmelash</span></h1>
-          <div className="text-2xl md:text-3xl mb-8 h-10"><span className="text-gray-400">{text}</span><span className="animate-pulse" style={{ animationDuration: '2s' }}>|</span></div>
-          <p className="max-w-2xl mb-10 text-gray-400 text-lg">Passionate about creating innovative tech solutions that bridge gaps and enhance user experiences. From gaming inspiration to real-world applications, I love turning ideas into reality.</p>
-          <div className="flex space-x-4 mb-8">
-            <a href="#projects" className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-700">View My Work</a>
-            <a href="#contact" className="px-8 py-3 border border-cyan-600 rounded-full font-semibold hover:bg-cyan-900 transition-all duration-700">Get In Touch</a>
-          </div>
-        </section>
-        
-  
-        <div className="relative h-24 overflow-hidden">
-          <svg className="absolute bottom-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#000000" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
-        </div>
- 
-        <section id="about" ref={aboutRef} className="py-10 px-6 overflow-hidden">
-          <div className="max-w-7xl mx-auto">
-  
-            <div className={`text-center mb-16 transition-all duration-1000 ${aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <h2 className="text-5xl md:text-6xl font-bold mb-4">About <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">Me</span></h2>
-              <div className="w-32 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full"></div>
-            </div>
-            
-           
-            <div className={`grid lg:grid-cols-2 gap-12 mb-20 transition-all duration-1000 delay-200 ${aboutVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-      
-              <div className="relative">
-      
-                <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-700"
-                     style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
- 
-                  <div className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full opacity-20 blur-xl"></div>
-                  <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full opacity-20 blur-xl"></div>
-                  
-                  <div className="relative z-10">
-                    <h3 className="text-3xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-                      Crafting Digital Experiences
-                    </h3>
-                    
-                    <div className="space-y-4 text-gray-300">
-                      <p className="text-lg leading-relaxed">
-                        I'm a <span className="text-cyan-400 font-semibold">Software Engineer</span> who transforms ideas into 
-                        elegant digital solutions. My journey began with a fascination for gaming, where I discovered magic 
-                        of creating immersive experiences through code.
-                      </p>
-                      
-                      <p className="text-lg leading-relaxed">
-                        Today, I specialize in <span className="text-purple-400 font-semibold">full-stack development</span> and 
-                        <span className="text-pink-400 font-semibold"> UI/UX design</span>, building applications that not only work 
-                        flawlessly but also delight users with thoughtful design.
-                      </p>
-                      
-                      <p className="text-lg leading-relaxed">
-                        My philosophy is simple: <span className="text-yellow-400 font-semibold">great code deserves great design</span>. 
-                        Whether I'm architecting scalable backend systems or crafting pixel-perfect interfaces, I bring the same 
-                        level of passion and attention to detail.
-                      </p>
-                    </div>
-                    
-             
-                  </div>
-                </div>
-              </div>
-      
-              <div className="space-y-6" style={{ transform: `translateY(${-scrollY * 0.05}px)` }}>
-                {experienceCards.map((card, index) => (
-                  <div
-                    key={index}
-                    className={`relative bg-gradient-to-r ${card.color} p-1 rounded-2xl cursor-pointer transform transition-all duration-700 hover:scale-105 ${
-                      activeCard === index ? 'scale-105 shadow-2xl' : ''
-                    }`}
-                    onClick={() => setActiveCard(activeCard === index ? null : index)}
-                    onMouseEnter={() => setHoveredExperience(index)}
-                    onMouseLeave={() => setHoveredExperience(null)}
-                  >
-                    <div className="bg-gray-900 rounded-2xl p-6 h-full">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="text-4xl text-white">
-                          {card.icon}
-                        </div>
-                      </div>
-                      
-                      <h4 className="text-xl font-bold text-white mb-2">
-                        {card.title}
-                      </h4>
-                      
-                      <p className="text-gray-400">
-                        {card.description}
-                      </p>
-                      
-            
-                      <div className="mt-4 w-full bg-gray-800 rounded-full h-2">
-                        <div 
-                          className="bg-white h-2 rounded-full transition-all duration-1000"
-                          style={{ 
-                            width: hoveredExperience === index ? '100%' : '0%',
-                            transitionDelay: `${index * 100}ms`
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            
-            <div className={`mt-20 transition-all duration-1000 delay-500 ${aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <h3 className="text-3xl font-bold text-center mb-12">
-                My<span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">Skills</span>
-              </h3>
-   
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                {skills.map((skill, index) => (
-                  <div
-                    key={index}
-                    className={`relative group bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden transform transition-all duration-700 hover:scale-105 hover:shadow-2xl ${
-                      hoveredSkill === index ? 'shadow-2xl' : ''
-                    }`}
-                    onMouseEnter={() => setHoveredSkill(index)}
-                    onMouseLeave={() => setHoveredSkill(null)}
-                  >
-          
-                    <div className="absolute inset-0 opacity-5">
-                      <div className="absolute inset-0" style={{
-                        backgroundImage: `radial-gradient(circle at 10px 10px, rgba(255,255,255,0.2) 1px, transparent 0)`,
-                        backgroundSize: '20px 20px'
-                      }}></div>
-                    </div>
-                    
-                    <div className="p-6 relative z-10">
-                      <div className="flex items-center mb-4">
-                        <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center mr-4 shadow-lg transform group-hover:rotate-6 transition-transform duration-500`}>
-                          {skill.icon}
-                        </div>
-                        <div>
-                          <h4 className="text-xl font-bold text-white">{skill.name}</h4>
-                          <p className="text-sm text-gray-400">{skill.stats}</p>
-                        </div>
-                      </div>
-                      
-          
-                      <div className="mt-6 flex flex-wrap gap-2">
-                        {skill.stats.split(', ').map((tech, techIndex) => (
-                          <span key={techIndex} className="px-3 py-1 bg-gray-800 rounded-full text-xs text-gray-400 border border-gray-700 group-hover:border-gray-600 transition-colors">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                      
-              
-                      <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none`}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-      
-              <div className="mt-12 text-center">
-                <div className="inline-flex items-center px-6 py-3 bg-gray-800 rounded-full">
-                  <div className="flex -space-x-2">
-                    {skills.slice(0, 5).map((skill, index) => (
-                      <div key={index} className={`w-10 h-10 rounded-full bg-gradient-to-br ${skill.color} flex items-center justify-center border-2 border-gray-900`}>
-                        {skill.icon}
-                      </div>
-                    ))}
-                  </div>
-                  <p className="ml-4 text-gray-300">
-                    And <span className="text-cyan-400 font-semibold">more</span> in my tech stack
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-        
-            <div className={`mt-20 text-center transition-all duration-1000 delay-700 ${aboutVisible ? 'opacity-100' : 'opacity-0'}`}>
-              <div className="relative inline-block">
-                <FaQuoteLeft className="absolute -top-8 -left-8 text-6xl text-cyan-500 opacity-20" />
-                <p className="text-2xl md:text-3xl font-light text-gray-300 italic max-w-3xl mx-auto px-12">
-                  "I believe the best software is born at the intersection of elegant code and thoughtful design. 
-                  It's not just about building applications—it's about crafting experiences that make a difference."
-                </p>
-                <FaQuoteRight className="absolute -bottom-8 -right-8 text-6xl text-purple-500 opacity-20" />
-              </div>
-              <p className="mt-8 text-cyan-400 font-semibold">— Fana Asmelash</p>
-            </div>
-          </div>
-        </section>
-        
-    
-        <section id="projects" className="py-20 px-6 bg-gray-950">
-          <div className="max-w-7xl mx-auto">
-      
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                Featured <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Projects</span>
-              </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
-                Explore my latest work, from community platforms to mobile applications that solve real-world problems
-              </p>
-            </div>
-            
-   
-            <div className="flex justify-center mb-12">
-              <div className="inline-flex rounded-lg bg-gray-900 p-1">
-                {projects.map((project, index) => (
-                  <button
-                    key={index}
-                    className={`px-6 py-3 rounded-md transition-all duration-700 flex items-center space-x-2 ${
-                      activeProject === index 
-                        ? `bg-gradient-to-r ${project.color} text-white` 
-                        : 'text-gray-500 hover:text-white'
-                    }`}
-                    onClick={() => setActiveProject(index)}
-                  >
-                    <span>{project.icon}</span>
-                    <span>{project.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-        
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-         
-              <div className="relative order-2 lg:order-1">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                  <div className="aspect-w-16 aspect-h-9 h-80 md:h-96">
-                    {imageError[`project-${activeProject}`] ? (
-                      <div className={`absolute inset-0 bg-gradient-to-br ${projects[activeProject].color} flex items-center justify-center`}>
-                        <div className="text-center p-6">
-                          <div className="text-6xl mb-4 text-white opacity-50">
-                            {projects[activeProject].icon}
-                          </div>
-                          <h3 className="text-2xl md:text-3xl font-bold mb-2">{projects[activeProject].name}</h3>
-                          <p className="text-gray-300">Project Preview</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <Image
-                          src={projects[activeProject].image}
-                          alt={projects[activeProject].name}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                          onError={() => setImageError(prev => ({ ...prev, [`project-${activeProject}`]: true }))}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
-                      </>
-                    )}
-                  </div>
-                  
-        
-                  <div className="absolute bottom-6 right-6 flex space-x-3">
-                    <button className="w-12 h-12 bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-opacity-100 transition-all duration-300">
-                      <FaGithub />
-                    </button>
-                    <button className="w-12 h-12 bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-opacity-100 transition-all duration-300">
-                      <FaExternalLinkAlt />
-                    </button>
-                  </div>
-                </div>
-              </div>
-              
-           
-              <div className="order-1 lg:order-2">
-        
-                <div className="mb-8">
-                  <h3 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                    {projects[activeProject].name}
-                  </h3>
-                  <p className="text-xl text-gray-300 mb-6">
-                    {projects[activeProject].shortDescription}
-                  </p>
-                  <p className="text-gray-400">
-                    {projects[activeProject].fullDescription}
-                  </p>
-                </div>
-                
-           
-                <div className="mb-8 p-6 bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl">
-                  <h4 className="text-lg font-semibold mb-2 text-cyan-400">Impact</h4>
-                  <p className="text-gray-300">{projects[activeProject].impact}</p>
-                </div>
-                
-            
-                <div className="mb-6">
-                  <div className="flex border-b border-gray-800">
-                    <button
-                      className={`px-4 py-2 font-medium transition-all duration-300 ${
-                        projectTab === 'overview' 
-                          ? 'text-cyan-400 border-b-2 border-cyan-400' 
-                          : 'text-gray-500 hover:text-white'
-                      }`}
-                      onClick={() => setProjectTab('overview')}
-                    >
-                      Overview
-                    </button>
-                    <button
-                      className={`px-4 py-2 font-medium transition-all duration-300 ${
-                        projectTab === 'tech' 
-                          ? 'text-cyan-400 border-b-2 border-cyan-400' 
-                          : 'text-gray-500 hover:text-white'
-                      }`}
-                      onClick={() => setProjectTab('tech')}
-                    >
-                      Technology
-                    </button>
-                    <button
-                      className={`px-4 py-2 font-medium transition-all duration-300 ${
-                        projectTab === 'links' 
-                          ? 'text-cyan-400 border-b-2 border-cyan-400' 
-                          : 'text-gray-500 hover:text-white'
-                      }`}
-                      onClick={() => setProjectTab('links')}
-                    >
-                      Resources
-                    </button>
-                  </div>
-                </div>
-                
-          
-                <div className="min-h-[200px]">
-                  {projectTab === 'overview' && (
-                    <div>
-                      <div className="flex flex-wrap gap-3 mb-6">
-                        {projects[activeProject].tags.map((tag, index) => (
-                          <span key={index} className="px-4 py-2 bg-gray-800 rounded-full text-sm text-gray-300">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                     <a
-  href={projects[activeProject].link}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-medium hover:from-cyan-600 hover:to-blue-600 transition-all duration-700 flex items-center"
->
-  View Live Project
-  <FaArrowRight className="ml-2" />
-</a>
-                    </div>
-                  )}
-                  
-                  {projectTab === 'tech' && (
-                    <div>
-                      <h4 className="text-lg font-semibold mb-4 text-cyan-400">Technology Stack</h4>
-                      <div className="grid grid-cols-2 gap-3">
-                        {projects[activeProject].tech.map((tech, index) => (
-                          <div key={index} className="flex items-center space-x-2 p-3 bg-gray-800 rounded-lg">
-                            <FaCodeBranch className="text-cyan-400" />
-                            <span className="text-gray-300">{tech}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  
-                  {projectTab === 'links' && (
-                    <div>
-                      <h4 className="text-lg font-semibold mb-4 text-cyan-400">Project Resources</h4>
-                      <div className="space-y-3">
-                        {Object.entries(projects[activeProject].links).map(([key, value]) => (
-                          <a
-                            key={key}
-                            href={value}
-                            className="flex items-center justify-between p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-all duration-300"
-                            onMouseEnter={() => setHoveredLink(key)}
-                            onMouseLeave={() => setHoveredLink(null)}
-                          >
-                            <div className="flex items-center space-x-3">
-                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                                key === 'research' ? 'bg-purple-900' :
-                                key === 'prd' ? 'bg-blue-900' :
-                                key === 'architecture' ? 'bg-green-900' :
-                                key === 'design' ? 'bg-pink-900' :
-                                key === 'schema' ? 'bg-yellow-900' :
-                                key === 'website' ? 'bg-cyan-900' :
-                                key === 'api' ? 'bg-indigo-900' :
-                                key === 'dashboard' ? 'bg-red-900' :
-                                'bg-gray-700'
-                              }`}>
-                                {
-                                  key === 'research' ? <FaLightbulb /> :
-                                  key === 'prd' ? <FaLayerGroup /> :
-                                  key === 'architecture' ? <FaProjectDiagram /> :
-                                  key === 'design' ? <FaPalette /> :
-                                  key === 'schema' ? <FaDatabase /> :
-                                  key === 'website' ? <FaExternalLinkAlt /> :
-                                  key === 'api' ? <FaCode /> :
-                                  key === 'dashboard' ? <FaRocket /> :
-                                  <FaArrowRight />
-                                }
-                              </div>
-                              <span className="capitalize text-gray-300">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                            </div>
-                            <FaArrowRight className={`text-cyan-500 transition-transform duration-300 ${
-                              hoveredLink === key ? 'translate-x-1' : ''
-                            }`} />
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </header>
 
-        <section id="education" className="py-20 px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center">
-              My <span className="text-cyan-400">Education</span>
-            </h2>
-            
-            <div className="space-y-12">
-        
-              <div className="bg-gray-900 rounded-xl p-8 md:p-12">
-                <div className="flex flex-col md:flex-row items-center mb-8">
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-r from-gray-700 to-gray-800 p-1 mb-6 md:mb-0 md:mr-8 flex items-center justify-center">
-             
-                    <div className="text-3xl font-bold text-white">
-                       MIT
-                    </div>
-                  </div>
-                  <div className="text-center md:text-left">
-                    <h3 className="text-2xl md:text-3xl font-bold mb-2">MIT</h3>
-                    <p className="text-xl text-gray-400 mb-4">Computer Science and Engineering</p>
-                    <p className="text-gray-500 mb-4">September 2023 – January 2025</p>
-                    <p className="text-gray-400">
-                      Comprehensive curriculum covering digital logic design, circuit analysis, and programming. 
-                      Developed strong foundational skills in C programming and electronic principles.
-                    </p>
-                  </div>
-                </div>
-                
-           
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-                  {['Digital and Logic Design', 'ECA (Circuit Course)', 'C Programming Language', 'Microprocessors'].map((course, index) => (
-                    <div key={index} className="flex items-center p-3 bg-gray-800 rounded-lg">
-                      <FaCheckCircle className="text-cyan-500 mr-3" />
-                      <span className="text-gray-300">{course}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-gray-900 rounded-xl p-8 md:p-12">
-                <div className="flex flex-col md:flex-row items-center mb-8">
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-r from-cyan-800 to-blue-900 p-1 mb-6 md:mb-0 md:mr-8">
-                    <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                      {imageError['education-logo'] ? (
-                        <span className="text-2xl md:text-3xl font-bold text-cyan-400">AC</span>
-                      ) : (
-                        <Image
-                          src="/images/Skirachix.png" 
-                          alt="AkiraChix Logo"
-                          fill
-                          className="object-contain p-2"
-                          sizes="(max-width: 768px) 80px, 96px"
-                          onError={() => setImageError(prev => ({ ...prev, 'education-logo': true }))}
-                        />
-                      )}
-                    </div>
-                  </div>
-                  <div className="text-center md:text-left">
-                    <h3 className="text-2xl md:text-3xl font-bold mb-2">AkiraChix</h3>
-                    <p className="text-xl text-gray-400 mb-4">Diploma in Information Technology</p>
-                    <p className="text-gray-500 mb-4">February 2025 – November 2025</p>
-                    <p className="text-gray-400">
-                      CodeHive program specializing in Backend Development, Frontend Web Development, Mobile Development, 
-                      Data and Machine Learning, User Experience (UX) Research, UI/UX Design, 
-                      Product Management, and Quality Assurance.
-                    </p>
-                  </div>
-                </div>
-                
-        
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-                  {['Backend Development', 'Frontend Web Development', 'Mobile Development', 'Data & ML'].map((course, index) => (
-                    <div key={index} className="flex items-center p-3 bg-gray-800 rounded-lg">
-                      <FaCheckCircle className="text-cyan-500 mr-3" />
-                      <span className="text-gray-300">{course}</span>
-                    </div>
-                  ))}
-                  {['UX Research', 'UI/UX Design', 'Product Management', 'Quality Assurance'].map((course, index) => (
-                    <div key={index + 4} className="flex items-center p-3 bg-gray-800 rounded-lg">
-                      <FaCheckCircle className="text-cyan-500 mr-3" />
-                      <span className="text-gray-300">{course}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-    
-        <section id="design" className="py-20 px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center">
-              Design <span className="text-purple-400">Work</span>
-            </h2>
-            
-  
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
-              {designProjects.map((project) => (
-                <div 
-                  key={project.id} 
-                  className="bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-700 cursor-pointer"
-                  onClick={() => setSelectedDesign(project)}
-                >
-                  <div className="relative h-64">
-                    {imageError[`design-preview-${project.id}`] ? (
-                      <div className={`absolute inset-0 bg-gradient-to-br ${project.color} flex items-center justify-center`}>
-                        <FaPalette className="text-5xl text-white opacity-50" />
-                      </div>
-                    ) : (
-                      <>
-                        <Image
-                          src={project.image}
-                          alt={project.name}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          onError={() => setImageError(prev => ({ ...prev, [`design-preview-${project.id}`]: true }))}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
-                      </>
-                    )}
-                    <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1 bg-black bg-opacity-60 rounded-full text-xs text-purple-300 backdrop-blur-sm">
-                        {project.category}
-                      </span>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h4 className="text-xl font-bold mb-1">{project.name}</h4>
-                      <div className="flex items-center text-purple-400">
-                        <FaEye className="mr-2" />
-                        <span className="text-sm">View Design</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <p className="text-sm text-gray-400 line-clamp-2">{project.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-
-            {selectedDesign && (
-              <div 
-                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80 backdrop-blur-sm"
-                onClick={() => setSelectedDesign(null)}
-              >
-                <div 
-                  className="bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="p-6 md:p-8">
-                    <div className="flex justify-between items-start mb-6">
-                      <div>
-                        <span className="px-3 py-1 bg-purple-900 bg-opacity-50 rounded-full text-sm text-purple-300">
-                          {selectedDesign.category}
-                        </span>
-                        <h3 className="text-3xl md:text-4xl font-bold mt-2">{selectedDesign.name}</h3>
-                      </div>
-                      <button 
-                        className="text-gray-400 hover:text-white transition-colors"
-                        onClick={() => setSelectedDesign(null)}
-                      >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
-                    
-                    <div className="grid md:grid-cols-2 gap-8">
-               
-                      <div className="rounded-lg overflow-hidden">
-                        <div className="relative h-80 md:h-96">
-                          {imageError[`design-detail-${selectedDesign.id}`] ? (
-                            <div className={`absolute inset-0 bg-gradient-to-br ${selectedDesign.color} flex items-center justify-center`}>
-                              <div className="text-center p-6">
-                                <FaPalette className="text-6xl text-white opacity-50 mx-auto mb-4" />
-                                <p className="text-gray-300">Design Preview</p>
-                              </div>
-                            </div>
-                          ) : (
-                            <Image
-                              src={selectedDesign.image}
-                              alt={selectedDesign.name}
-                              fill
-                              className="object-contain"
-                              sizes="(max-width: 768px) 100vw, 50vw"
-                              onError={() => setImageError(prev => ({ ...prev, [`design-detail-${selectedDesign.id}`]: true }))}
-                            />
-                          )}
-                        </div>
-                      </div>
-                      
-                      {/* Design Details */}
-                      <div>
-                        <p className="text-lg text-gray-400 mb-6">
-                          {selectedDesign.description}
-                        </p>
-                        
-                        <p className="text-gray-300 mb-6">
-                          {selectedDesign.details}
-                        </p>
-                        
-                        <div className="flex flex-wrap gap-3 mb-6">
-                          {selectedDesign.tags.map((tag, index) => (
-                            <span key={index} className="px-4 py-2 bg-gray-800 rounded-full text-sm text-gray-300">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        
-                        <div className="flex gap-4">
-                          <a 
-                            href={selectedDesign.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-700 flex items-center"
-                          >
-                            View Full Project
-                            <FaExternalLinkAlt className="ml-2" />
-                          </a>
-                          <button 
-                            className="px-6 py-3 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-800 transition-all duration-700"
-                            onClick={() => setSelectedDesign(null)}
-                          >
-                            Close
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* NEW Photography Section - REDESIGNED AS 3-CARD CAROUSEL */}
-        <section id="photography" className="py-20 px-6 bg-gray-950">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                Captured <span className="bg-gradient-to-r from-pink-400 to-orange-500 bg-clip-text text-transparent">Moments</span>
-              </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
-                Photography is an inspiration for great design as well. It allows me to capture composition, color, and aesthetics that directly influence my UI/UX and graphic design work.
-              </p>
-            </div>
-            
-            {/* Carousel Container - Single Card with Auto-Swap */}
-            <div className="relative group w-full max-w-4xl mx-auto h-[500px]">
-              {/* Main Card Container */}
-              <div className="absolute inset-0 bg-gray-900 rounded-3xl shadow-2xl border border-gray-800 overflow-hidden">
-                
-       
-                <Image
-                  key={photos[currentPhotoIndex].id} 
-                  src={photos[currentPhotoIndex].src}
-                  alt={photos[currentPhotoIndex].title}
-                  fill
-                  className="object-contain w-full h-full transition-opacity duration-700" 
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  onError={() => setImageError(prev => ({ ...prev, [`photo-${photos[currentPhotoIndex].id}`]: true }))}
-                />
-                
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/70"></div>
-                
-           
-                <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col items-start justify-end z-10">
-                  <span className="text-xs font-bold text-pink-400 uppercase tracking-wider mb-1 animate-pulse">
-                    {photos[currentPhotoIndex].category}
-                  </span>
-                  <h3 className="text-4xl font-bold text-white drop-shadow-md">
-                    {photos[currentPhotoIndex].title}
-                  </h3>
-                </div>
-              </div>
-              
-      
-              <div className="absolute -bottom-6 left-0 right-0 flex justify-center space-x-3 z-20">
-                {photos.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentPhotoIndex(idx)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      currentPhotoIndex === idx ? 'bg-pink-500 scale-125' : 'bg-gray-600 hover:bg-gray-500'
-                    }`}
-                    aria-label={`View photo ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-        
-            <div className="mt-12 text-center">
-              <a 
-                href="https://www.instagram.com/fanu_nti" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 text-gray-400 hover:text-pink-400 transition-colors border-b border-transparent hover:border-pink-400 pb-1"
-              >
-                <span>See more on my Instagram</span>
-                <FaArrowRight className="text-sm" />
+      <main id="top" className="relative z-10">
+        {/* Hero */}
+        <section className="relative overflow-hidden min-h-screen bg-[#3a1604] px-5 pb-16 pt-28 flex items-center justify-center">
+          <div aria-hidden className="absolute -top-[22%] left-[4%] w-[32%] aspect-square rounded-full bg-gradient-to-b from-black to-[#3a1604]" />
+          <div aria-hidden className="absolute -top-[18%] right-[6%] w-[26%] aspect-square rounded-full bg-gradient-to-br from-[#3d1a05] to-[#522407]" />
+          <div aria-hidden className="absolute -bottom-[30%] left-[30%] w-[40%] aspect-square rounded-full bg-gradient-to-br from-[#4a2006] to-[#5c2808]" />
+          <div className="relative w-full max-w-7xl rounded-[2rem] border border-white/25 bg-white/10 backdrop-blur-2xl shadow-[0_30px_80px_rgba(0,0,0,0.5)] p-7 md:p-14 rise">
+            <h1 className="font-display font-bold tracking-tight leading-[1.02] text-4xl sm:text-5xl md:text-7xl lg:text-8xl sm:whitespace-nowrap mt-16 md:mt-24">
+              Hello, I&apos;m Fana.
+            </h1>
+            <p className="mt-5 font-display text-xl md:text-2xl font-semibold min-h-[2lh]">
+              {text}<span aria-hidden className="ml-0.5 animate-pulse">|</span>
+            </p>
+            <p className="mt-4 max-w-2xl text-sm md:text-base text-white/80">
+              Passionate about creating innovative tech solutions that bridge gaps and enhance user experiences. From gaming inspiration to real-world applications, I love turning ideas into reality.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#projects" className="bg-white text-[#3a1604] px-6 py-3 font-semibold rounded-full hover:bg-sun hover:text-white transition-colors">View my work</a>
+              <a href="#contact" className="border border-white/60 px-6 py-3 font-semibold rounded-full hover:bg-white/15 transition-colors">Get in touch</a>
+              <a href={CV_URL} download className="inline-flex items-center gap-2 bg-cobalt text-white px-6 py-3 font-semibold rounded-full hover:bg-white hover:text-[#3a1604] transition-colors">
+                <FaDownload aria-hidden className="text-sm" />Download CV
               </a>
             </div>
+            <a href="https://www.instagram.com/fanu_nti" target="_blank" rel="noopener noreferrer" className="mt-10 block text-sm hover:underline">@fanu_nti</a>
           </div>
         </section>
-        
-     
-        <section id="contact" className="py-20 px-6 relative overflow-hidden">
-         
-          <div className="absolute inset-0 z-0">
-            <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-            <div className="absolute bottom-20 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse" style={{ animationDelay: '4s' }}></div>
+
+        {/* About */}
+        <section id="about" className="py-16 md:py-24 px-5 scroll-mt-20"><div className="mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
+            <div>
+            <H2>Crafting digital experiences</H2>
+            <div className="mt-10 space-y-5 text-lg text-muted max-w-prose">
+              <p>I&apos;m a <strong className="text-ink">Software Engineer</strong> who transforms ideas into elegant digital solutions. My journey began with a fascination for gaming, where I discovered the magic of creating immersive experiences through code.</p>
+              <p>Today, I specialize in <strong className="text-ink">full-stack development</strong> and <strong className="text-ink">UI/UX design</strong>, building applications that not only work flawlessly but also delight users with thoughtful design.</p>
+              <p>My philosophy is simple: great code deserves great design. Whether I&apos;m architecting scalable backend systems or crafting pixel-perfect interfaces, I bring the same level of passion and attention to detail.</p>
+              <p>
+                <a href={CV_URL} download className="inline-flex items-center gap-2 bg-cobalt text-white px-6 py-3 font-semibold rounded-full hover:bg-white hover:text-[#3a1604] transition-colors">
+                  <FaDownload aria-hidden className="text-sm" />Download my CV
+                </a>
+              </p>
+            </div>
+            </div>
+            <div className="md:-mt-2">
+              {/* small screens: simple list */}
+              <dl className="md:hidden divide-y divide-white/15 border-y border-white/15">
+                {values.map(([t, d]) => (
+                  <div key={t} className="py-5">
+                    <dt className="font-display text-xl font-semibold text-sun">{t}</dt>
+                    <dd className="mt-1 text-muted">{d}</dd>
+                  </div>
+                ))}
+              </dl>
+              {/* md and up: glowing ring with four labelled boxes */}
+              <div className="hidden md:block relative mx-auto w-full max-w-[34rem] aspect-[520/600]">
+                <svg viewBox="0 0 520 600" className="absolute inset-0 w-full h-full" aria-hidden>
+                  <defs>
+                    <linearGradient id="ringG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#ffd86b" /><stop offset="1" stopColor="#ff9a3d" /></linearGradient>
+                    <linearGradient id="baseG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ff9a3d" stopOpacity=".55" /><stop offset="1" stopColor="#c4560c" stopOpacity=".35" /></linearGradient>
+                    <filter id="glow" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="10" /></filter>
+                  </defs>
+                  <ellipse cx="260" cy="505" rx="240" ry="78" fill="url(#baseG)" />
+                  <ellipse cx="260" cy="474" rx="128" ry="34" fill="#140a04" />
+                  {['M208 98 H238 Q250 98 250 110 V452', 'M208 268 H212 Q224 268 224 280 V460', 'M312 148 H282 Q270 148 270 160 V450', 'M312 318 H310 Q298 318 298 330 V460'].map((d) => (
+                    <path key={d} d={d} fill="none" stroke="white" strokeOpacity=".7" strokeWidth="1" />
+                  ))}
+                </svg>
+                <div aria-hidden className="absolute left-1/2 top-[78.3%] w-[66%] aspect-square" style={{ transform: 'translate(-50%,-50%) rotateX(72.5deg)', WebkitMaskImage: 'radial-gradient(circle closest-side, transparent 85%, #000 86%)', maskImage: 'radial-gradient(circle closest-side, transparent 85%, #000 86%)', filter: 'drop-shadow(0 0 14px rgba(255,170,60,.7))' }}>
+                  <div className="ring-rot absolute inset-0 rounded-full" style={{ background: 'conic-gradient(#ffeaa8 0deg, #ff9a3d 70deg, #4a2006 160deg, #4a2006 200deg, #ff9a3d 290deg, #ffeaa8 360deg)' }} />
+                </div>
+                {values.map(([t, d], i) => (
+                  <div key={t} className={`absolute w-[40%] min-h-[7.25rem] rounded-xl border border-white/30 bg-white/5 backdrop-blur-md px-3.5 py-3 text-left ${i < 2 ? 'left-0' : 'right-0'}`}
+                    style={{ top: `${[60, 230, 110, 280][i] / 6}%` }}>
+                    <h4 className="font-display text-sm font-semibold text-sun leading-tight whitespace-nowrap">{t}</h4>
+                    <p className="mt-2 text-xs text-muted leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          
-          <div className="max-w-6xl mx-auto relative z-10">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-              Let's <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">Connect</span>
-            </h2>
-            <p className="text-center text-gray-400 mb-16 max-w-2xl mx-auto">
-              Ready to bring your ideas to life? Let's collaborate and create something amazing together.
+        </div></section>
+
+        {/* Quote */}
+        <section className="relative px-5 py-28 md:py-44">
+          <blockquote className="mx-auto max-w-7xl text-center">
+            <p className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold leading-snug">
+              &ldquo;I believe the best software is born at the intersection of elegant code and thoughtful design.&rdquo;
             </p>
-            
- 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-  
-              <div className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
-                <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
-                  <a 
-                    href="mailto:fanabezabih@gmail.com"
-                    className="cursor-pointer"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                      <FaEnvelope className="text-2xl text-white" />
-                    </div>
-                    <h3 className="text-lg font-bold mb-1">Email</h3>
-                    <span className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
-                      fanabezabih@gmail.com
-                    </span>
-                  </a>
-                </div>
-              </div>
-              
-    
-              <div className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
-                <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
-                  <a 
-                    href="https://www.linkedin.com/in/fana-bezabih-027713326"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cursor-pointer"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                      <FaLinkedin className="text-2xl text-white" />
-                    </div>
-                    <h3 className="text-lg font-bold mb-1">LinkedIn</h3>
-                    <span className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
-                      Connect with me
-                    </span>
-                  </a>
-                </div>
-              </div>
-              
-         
-              <div className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
-                <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
-                  <a 
-                    href="https://github.com/fanabezabih"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cursor-pointer"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                      <FaGithub className="text-2xl text-white" />
-                    </div>
-                    <h3 className="text-lg font-bold mb-1">GitHub</h3>
-                    <span className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
-                      Check my work
-                    </span>
-                  </a>
-                </div>
-              </div>
+            <footer className="mt-8 text-lg text-sun">Fana Asmelash</footer>
+          </blockquote>
+        </section>
 
-       
-              <div className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
-                <div className="relative bg-gray-900 rounded-lg p-6 h-full flex flex-col items-center justify-center transform transition-all duration-500 group-hover:scale-105">
-                  <a 
-                    href="https://www.behance.net/fanabezabih" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cursor-pointer"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500 flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-500">
-                      <FaBehance className="text-2xl text-white" />
-                    </div>
-                    <h3 className="text-lg font-bold mb-1">Behance</h3>
-                    <span className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
-                      View Design
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-          
-            <div className="max-w-2xl mx-auto">
-              <div className="bg-gray-900 bg-opacity-50 backdrop-blur-lg rounded-2xl p-8 border border-gray-800">
-                <h3 className="text-2xl font-bold mb-6 text-center">Send me a message</h3>
-                <form className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="relative">
-                      <input 
-                        type="text" 
-                        id="name" 
-                        className="peer w-full bg-gray-800 border-0 border-b-2 border-gray-700 rounded-t-lg px-4 py-3 text-white  placeholder-transparent focus:outline-none focus:border-cyan-400 transition-colors"
-                        placeholder="Your Name"
-                      />
-                      <label 
-                        htmlFor="name" 
-                        className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
-                      >
-                        Your Name
-                      </label>
-                    </div>
-                    <div className="relative">
-                      <input 
-                        type="email" 
-                        id="email" 
-                        className="peer w-full bg-gray-800 border-0 border-b-2 border-gray-700 rounded-t-lg px-4 py-3 text-white placeholder-transparent focus:outline-none focus:border-cyan-400 transition-colors"
-                        placeholder="Your Email"
-                      />
-                      <label 
-                        htmlFor="email" 
-                        className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
-                      >
-                        Your Email
-                      </label>
-                    </div>
+        {/* Skills */}
+        <section id="skills" className="relative overflow-hidden py-24 px-5 scroll-mt-20">
+          <div aria-hidden className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 aspect-square w-[min(110vw,52rem)] rounded-full bg-gradient-to-b from-[#451a04] to-[#4a2008]/70" />
+          <div aria-hidden className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 aspect-square w-[min(66vw,30rem)] rounded-full bg-black" />
+          <div className="relative mx-auto max-w-3xl">
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-center">My skills</h2>
+            <ul className="mt-16 space-y-8">
+              {skills.map(([n, s], i) => (
+                <li key={n} className={`relative ${i % 2 ? 'rotate-[1.5deg]' : '-rotate-[1.5deg]'} ${i === 0 ? '' : '-mt-2'}`}>
+                  <span className={`absolute -top-4 ${i % 2 ? 'left-6 -rotate-6' : 'right-6 rotate-6'} z-10 px-4 py-1 font-display font-bold text-sm md:text-base ${i % 3 === 0 ? 'bg-white/80 text-black' : 'bg-cobalt text-white'}`}>
+                    {tags[i]}
+                  </span>
+                  <div className="relative overflow-hidden rounded-[2.5rem] border border-white/30 bg-gradient-to-br from-white/15 to-black/30 backdrop-blur-xl px-8 py-8 md:py-10 text-center shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+                    <div aria-hidden className={`absolute bottom-0 ${i % 2 ? 'right-6' : 'left-6'} w-1/3 h-1/2 bg-cobalt/50 blur-2xl`} />
+                    <h3 className="relative font-display text-2xl md:text-3xl font-semibold">{n}</h3>
+                    <p className="relative mt-1 text-white/80">{s}</p>
                   </div>
-                  <div className="relative">
-                    <input 
-                      type="text" 
-                      id="subject" 
-                      className="peer w-full bg-gray-800 border-0 border-b-2 border-gray-700 rounded-t-lg px-4 py-3 text-white placeholder-transparent focus:outline-none focus:border-cyan-400 transition-colors"
-                      placeholder="Subject"
-                    />
-                    <label 
-                      htmlFor="subject" 
-                      className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
-                      >
-                        Subject
-                    </label>
-                  </div>
-                  <div className="relative">
-                    <textarea 
-                      id="message" 
-                      rows={5} 
-                      className="peer w-full bg-gray-800 border-0 border-b-2 border-gray-700 rounded-t-lg px-4 py-3 text-white placeholder-transparent focus:outline-none focus:border-cyan-400 transition-colors resize-none"
-                      placeholder="Your Message"
-                    ></textarea>
-                    <label 
-                      htmlFor="message" 
-                      className="absolute left-5 -top-5 text-sm text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-cyan-400"
-                      >
-                        Your Message
-                    </label>
-                  </div>
-                  <div className="flex justify-center">
-                        <a 
-                    href="mailto:fanabezabih@gmail.com"
-                    className="cursor-pointer"
-                  >
-                    <button 
-                      type="submit" 
-                      className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-700 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-50"
-                    >
-                      Send Message
-                    </button>
-                    </a>
-                  </div>
-                </form>
-              </div>
-            </div>
-      
-            <div className="mt-20 text-center">
-              <div className="inline-flex items-center space-x-2 mb-4">
-                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-              
-                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
-                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+        {/* Projects */}
+        <section id="projects" className="relative scroll-mt-20">
+          <div className="px-5 pt-16 pb-6 mx-auto max-w-6xl"><H2>Projects solving real-world problems</H2></div>
+          <div ref={projRef} style={{ height: `${projects.length * 100}vh` }}>
+            <div className="sticky top-14 h-[calc(100vh-3.5rem)] overflow-hidden">
+              <div className="flex h-full" style={{ width: `${projects.length * 100}%`, transform: `translateX(-${(prog * (projects.length - 1) * 100) / projects.length}%)` }}>
+                {projects.map((pr) => (
+                  <div key={pr.name} className="h-full px-5 pb-6" style={{ width: `${100 / projects.length}%` }}>
+                    <ProjectPanel p={pr} />
+                  </div>
+                ))}
               </div>
-           
             </div>
           </div>
         </section>
-        
-   
-        <footer className="py-8 px-6 text-center text-gray-600 border-t border-gray-900">
-          <p>&copy; {new Date().getFullYear()} Fana Asmelash. All rights reserved.</p>
-        </footer>
-      </div>
+
+        {/* Design */}
+        <section id="design" className="py-20 px-5 scroll-mt-20 overflow-hidden"><div className="mx-auto max-w-6xl">
+          <H2>Design work</H2>
+          <div className="mt-16 md:mt-28 pb-10 md:pb-24 flex flex-col md:flex-row md:justify-center gap-6 md:gap-8 [perspective:1600px]">
+            {designs.map((d, i) => (
+              <article key={d.name}
+                style={{ ['--ty' as string]: `${[4, 0, -4][i]}rem` }}
+                className={`tilt group relative w-full md:w-[22rem] aspect-[4/5] md:aspect-[11/15] rounded-[2rem] p-6 flex flex-col border border-white/30 shadow-[0_25px_60px_rgba(0,0,0,0.5)] ${i === 1 ? 'bg-cobalt/80' : 'bg-white/10 backdrop-blur-md'}`}>
+                <h3 className="font-display text-2xl font-bold leading-tight">{d.name}</h3>
+                <p className="text-sm text-white/80 mt-1">{d.cat}</p>
+                <div className="relative mt-4 flex-1 min-h-0 rounded-xl overflow-hidden bg-black/30">
+                  <Image src={d.image} alt={d.name} fill className="object-cover" sizes="300px" />
+                </div>
+                <span className="mt-3 self-end font-display text-5xl font-light leading-none">0{i + 1}</span>
+
+                <div className="pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto absolute inset-0 rounded-[2rem] overflow-y-auto overscroll-contain scroll-thin bg-[#140a04]/95 backdrop-blur-xl p-6 flex flex-col opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm text-sun">{d.cat}</p>
+                  <h3 className="font-display text-2xl font-bold leading-tight">{d.name}</h3>
+                  <p className="mt-3 text-base text-white/90">{d.desc}</p>
+                  <p className="mt-3 text-sm text-muted">{d.details}</p>
+                  <ul className="mt-4 flex flex-wrap gap-2">{d.tags.map(t => <li key={t} className="border border-white/50 px-2.5 py-0.5 text-xs rounded-full">{t}</li>)}</ul>
+                  <a href={d.link} target="_blank" rel="noopener noreferrer" className="mt-auto pt-4 self-start">
+                    <span className="inline-block bg-cobalt text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-white hover:text-paper transition-colors">View full project on Behance</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div></section>
+
+        {/* Education */}
+        <section id="education" className="py-16 md:py-24 px-5 scroll-mt-20">
+          <div className="mx-auto max-w-6xl">
+            <H2>My education</H2>
+            <div className="mt-12 border-t border-white/15">
+              {study.map((e) => (
+                <article key={e.school} className="grid md:grid-cols-[1fr_2fr] gap-4 md:gap-12 py-10 border-b border-white/15">
+                  <div>
+                    <p className="text-sm text-muted">{e.when}</p>
+                    <h3 className="mt-2 font-display text-3xl md:text-4xl font-bold">{e.school}</h3>
+                    <p className="mt-1 text-sun font-medium">{e.degree}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted max-w-prose">{e.desc}</p>
+                    <ul className="mt-5 flex flex-wrap gap-2">
+                      {e.items.map((i) => (
+                        <li key={i} className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sm">{i}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Contact + footer */}
+      <ContactFooter />
     </div>
   );
 }
